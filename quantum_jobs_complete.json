@@ -1,0 +1,275 @@
+{
+  "searchTerm": "quantum computing",
+  "totalJobs": 26,
+  "realJobs": 1,
+  "mockJobs": 25,
+  "scrapedAt": "2025-08-15T18:56:56.041Z",
+  "portals": [
+    "IBM Careers",
+    "Google Careers",
+    "Microsoft Careers",
+    "Amazon Jobs",
+    "RemoteOK"
+  ],
+  "jobs": [
+    {
+      "title": "$30 Hourly Virtual Assistant USA RESIDENTS ONLY",
+      "company": "HOLDON NOW",
+      "location": "🇺🇸 United States",
+      "link": "https://remoteok.com/remote-jobs/remote-30-hourly-virtual-assistant-usa-residents-only-holdon-now-1093611",
+      "portal": "RemoteOK",
+      "type": "Remote",
+      "scrapedAt": "2025-08-15T18:56:55.959Z"
+    },
+    {
+      "title": "Quantum Software Engineer",
+      "company": "IonQ",
+      "location": "Remote",
+      "link": "https://careers.ionq.com/jobs/1",
+      "portal": "IonQ Careers",
+      "salary": "₹19 LPA",
+      "experience": "6-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.040Z"
+    },
+    {
+      "title": "Quantum Systems Engineer",
+      "company": "Google",
+      "location": "Delhi",
+      "link": "https://careers.google.com/jobs/2",
+      "portal": "Google Careers",
+      "salary": "₹34 LPA",
+      "experience": "7-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Algorithm Developer",
+      "company": "Microsoft",
+      "location": "Remote",
+      "link": "https://careers.microsoft.com/jobs/3",
+      "portal": "Microsoft Careers",
+      "salary": "₹20 LPA",
+      "experience": "2-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Machine Learning Engineer",
+      "company": "IBM",
+      "location": "Remote",
+      "link": "https://careers.ibm.com/jobs/4",
+      "portal": "IBM Careers",
+      "salary": "₹39 LPA",
+      "experience": "4-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Hardware Engineer",
+      "company": "IonQ",
+      "location": "Delhi",
+      "link": "https://careers.ionq.com/jobs/5",
+      "portal": "IonQ Careers",
+      "salary": "₹21 LPA",
+      "experience": "4-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Computing Researcher",
+      "company": "Intel",
+      "location": "Delhi",
+      "link": "https://careers.intel.com/jobs/6",
+      "portal": "Intel Careers",
+      "salary": "₹42 LPA",
+      "experience": "7-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Algorithm Developer",
+      "company": "Rigetti",
+      "location": "Mumbai",
+      "link": "https://careers.rigetti.com/jobs/7",
+      "portal": "Rigetti Careers",
+      "salary": "₹36 LPA",
+      "experience": "8-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Algorithm Developer",
+      "company": "Intel",
+      "location": "Bangalore",
+      "link": "https://careers.intel.com/jobs/8",
+      "portal": "Intel Careers",
+      "salary": "₹44 LPA",
+      "experience": "8-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Algorithm Developer",
+      "company": "Microsoft",
+      "location": "Chennai",
+      "link": "https://careers.microsoft.com/jobs/9",
+      "portal": "Microsoft Careers",
+      "salary": "₹21 LPA",
+      "experience": "4-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Research Scientist",
+      "company": "IBM",
+      "location": "Mumbai",
+      "link": "https://careers.ibm.com/jobs/10",
+      "portal": "IBM Careers",
+      "salary": "₹34 LPA",
+      "experience": "3-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Hardware Engineer",
+      "company": "Xanadu",
+      "location": "Remote",
+      "link": "https://careers.xanadu.com/jobs/11",
+      "portal": "Xanadu Careers",
+      "salary": "₹28 LPA",
+      "experience": "6-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Machine Learning Engineer",
+      "company": "Microsoft",
+      "location": "Hyderabad",
+      "link": "https://careers.microsoft.com/jobs/12",
+      "portal": "Microsoft Careers",
+      "salary": "₹38 LPA",
+      "experience": "8-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Software Engineer",
+      "company": "Google",
+      "location": "Pune",
+      "link": "https://careers.google.com/jobs/13",
+      "portal": "Google Careers",
+      "salary": "₹39 LPA",
+      "experience": "3-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Computing Researcher",
+      "company": "IonQ",
+      "location": "Hyderabad",
+      "link": "https://careers.ionq.com/jobs/14",
+      "portal": "IonQ Careers",
+      "salary": "₹41 LPA",
+      "experience": "7-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Software Engineer",
+      "company": "Xanadu",
+      "location": "Chennai",
+      "link": "https://careers.xanadu.com/jobs/15",
+      "portal": "Xanadu Careers",
+      "salary": "₹40 LPA",
+      "experience": "3-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Senior Quantum Developer",
+      "company": "Google",
+      "location": "Mumbai",
+      "link": "https://careers.google.com/jobs/16",
+      "portal": "Google Careers",
+      "salary": "₹16 LPA",
+      "experience": "7-8 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Software Engineer",
+      "company": "Google",
+      "location": "Chennai",
+      "link": "https://careers.google.com/jobs/17",
+      "portal": "Google Careers",
+      "salary": "₹15 LPA",
+      "experience": "5-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Research Scientist",
+      "company": "Rigetti",
+      "location": "Remote",
+      "link": "https://careers.rigetti.com/jobs/18",
+      "portal": "Rigetti Careers",
+      "salary": "₹14 LPA",
+      "experience": "5-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Systems Engineer",
+      "company": "Xanadu",
+      "location": "Hyderabad",
+      "link": "https://careers.xanadu.com/jobs/19",
+      "portal": "Xanadu Careers",
+      "salary": "₹41 LPA",
+      "experience": "2-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Senior Quantum Developer",
+      "company": "IonQ",
+      "location": "Delhi",
+      "link": "https://careers.ionq.com/jobs/20",
+      "portal": "IonQ Careers",
+      "salary": "₹42 LPA",
+      "experience": "3-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Software Engineer",
+      "company": "Xanadu",
+      "location": "Bangalore",
+      "link": "https://careers.xanadu.com/jobs/21",
+      "portal": "Xanadu Careers",
+      "salary": "₹18 LPA",
+      "experience": "6-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Research Scientist",
+      "company": "Microsoft",
+      "location": "Delhi",
+      "link": "https://careers.microsoft.com/jobs/22",
+      "portal": "Microsoft Careers",
+      "salary": "₹45 LPA",
+      "experience": "8-9 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Algorithm Developer",
+      "company": "Google",
+      "location": "Bangalore",
+      "link": "https://careers.google.com/jobs/23",
+      "portal": "Google Careers",
+      "salary": "₹13 LPA",
+      "experience": "5-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Senior Quantum Developer",
+      "company": "IBM",
+      "location": "Mumbai",
+      "link": "https://careers.ibm.com/jobs/24",
+      "portal": "IBM Careers",
+      "salary": "₹20 LPA",
+      "experience": "8-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    },
+    {
+      "title": "Quantum Hardware Engineer",
+      "company": "Google",
+      "location": "Pune",
+      "link": "https://careers.google.com/jobs/25",
+      "portal": "Google Careers",
+      "salary": "₹44 LPA",
+      "experience": "1-10 years",
+      "scrapedAt": "2025-08-15T18:56:56.041Z"
+    }
+  ]
+}
