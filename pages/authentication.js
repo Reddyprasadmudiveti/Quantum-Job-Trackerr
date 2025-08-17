@@ -1,14 +1,22 @@
-import { User } from "../Models/User.model.js";
+import User from "../database/jobSchema.js"; 
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import { randomTokenGen } from "../Utils/randomTokenGen.js";
+import dotenv from "dotenv";
+import {randomTokenGen}from"../middleware/randomTokenGen.js";
 import { forgotPasswordMail, resetPasswordMail, verificationMail } from "../Mail/mail.js";
-import { setCookiesAndToken } from "../Utils/setCookiesAndToken.js";
+import { setCookiesAndToken } from "../middleware/jwtAuth.js";
 
+dotenv.config()
 export const Signup = async (req, res) => {
   const { userName, email, password } = req.body;
+  console.log("userName", userName, "email", email, "password", password);
   try {
-    const Exist = await User.findOne({ email });
+    const Exist = await User.findOne({ email }).select("-password");
+
+    const usernameExist = await User.findOne({ username: userName })
+    if (usernameExist) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
 
     if ((!userName, !email, !password)) {
       return res.status(400).json({ message: "All fields are required" });
@@ -22,7 +30,7 @@ export const Signup = async (req, res) => {
     console.log(Token);
 
     const savedUser = await User.create({
-      userName,
+      username: userName, // Match the schema field name
       email,
       password: hasedPassword,
       verificationToken: Token,
@@ -104,7 +112,7 @@ export const Signin=async(req,res)=>{
         exist.lastLogin=Date.now()
         await exist.save()
 
-        await setCookiesAndToken(exist.id,res)
+        await setCookiesAndToken(res, { userId: exist.id })
         return res.status(200).json({message:"Login Successfully",user:{...exist._doc,password:undefined}})
 
     } catch (error) {
@@ -150,6 +158,8 @@ export const forgotPassword=async(req,res)=>{
 export const resetPassword=async(req,res)=>{
     const {token}=req.params
     const {password}=req.body
+
+    console.log("token",token,"password",password,"req.params",req.params)
 
     console.log("token",token,"password",password)
 
