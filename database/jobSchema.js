@@ -8,6 +8,16 @@ const schema = mongoose.Schema({
         unique: true,
         trim: true
     },
+    firstName: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        required: false,
+        trim: true
+    },
     email: {
         type: String,
         required: true,
@@ -23,6 +33,10 @@ const schema = mongoose.Schema({
     gender: {
         type: String,
         enum: ['male', 'female', 'other'],
+        required: false
+    },
+    profilePicture: {
+        type: String,
         required: false
     },
     lastLogin:{

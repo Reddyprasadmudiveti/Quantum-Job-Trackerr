@@ -101,7 +101,7 @@ const JobsPage = () => {
   return (
     <div >
       {/* Header Section */}
-      <div className='relative z-10 text-center py-12 px-6'>
+      <div className='relative select-none z-10 text-center py-12 px-6'>
         <h1 className='text-6xl font-bold text-white mb-4 drop-shadow-2xl'>
           Find Your <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Dream Job</span>
         </h1>
@@ -111,7 +111,7 @@ const JobsPage = () => {
       </div>
 
       {/* Search and Filters */}
-      <div className='relative z-10 scale-80 px-6 mb-12'>
+      <div className='relative select-none z-10 scale-80 px-6 mb-12'>
         <div className='max-w-6xl mx-auto'>
           <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
             <div className='grid md:grid-cols-4 gap-6'>
@@ -164,7 +164,7 @@ const JobsPage = () => {
       </div>
 
       {/* Jobs Grid */}
-      <div className='relative z-10 px-6 pb-20'>
+      <div className='relative select-none z-10 px-6 pb-20'>
         <div className='max-w-6xl mx-auto'>
           <div className='flex justify-between items-center mb-8'>
             <h2 className='text-3xl font-bold text-white'>

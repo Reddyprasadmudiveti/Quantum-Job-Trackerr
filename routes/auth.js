@@ -23,10 +23,10 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback', (req, res, next) => {
   if (!isGoogleConfigured) {
     console.error('Google OAuth callback called but OAuth is not configured');
-    return res.redirect('http://localhost:5173/login?error=oauth_not_configured');
+    return res.redirect('http://localhost:5173/signin?error=oauth_not_configured');
   }
 
-  passport.authenticate('google', { failureRedirect: '/login' }, (err, user, info) => {
+  passport.authenticate('google', { failureRedirect: '/signin' }, (err, user, info) => {
     if (err) {
       console.error('Google OAuth callback error:', {
         error: err.message,

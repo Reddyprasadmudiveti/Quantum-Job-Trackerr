@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useAuth } from '../../contexts/AuthContext'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const { login, googleLogin } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -27,30 +30,32 @@ const Login = () => {
     setIsLoading(true)
     setError('')
 
-    console.log(formData.email, formData.password)
-
     try {
-      const signin = await axios.post("http://localhost:3000/api/auth/signin", {
-        email: formData.email,
-        password: formData.password
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/signin", 
+        {
+          email: formData.email,
+          password: formData.password
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true // This is important for cookies
         }
-      })
+      )
 
-      if (!signin) {
-        throw new Error('Authentication service not available. Please check if the server is running.');
-      }
-
-      console.log('Login successful:', signin.data)
-      // Handle successful login here
-      // You might want to store the token and redirect
-      if (signin.data.token) {
-        localStorage.setItem('token', signin.data.token);
-        // Redirect to dashboard or home page
-        window.location.href = '/dashboard';
-      }
+      // Axios automatically throws errors for non-2xx responses
+      // so if we get here, it means the request was successful
+      const data = response.data
+      console.log('Login successful:', data)
+      
+      // Use the login function from AuthContext
+      login(data.user, data.token || response.headers['authorization'])
+      
+      // Redirect to jobs page
+      navigate('/jobs')
+      
     } catch (error) {
       console.error('Login error:', error)
 
@@ -154,17 +159,20 @@ const Login = () => {
 
               {/* Remember Me & Forgot Password */}
               <div className='flex items-center justify-between'>
-                <label className='flex items-center'>
+                <div className='flex items-center'>
                   <input
                     type="checkbox"
+                    id="rememberMe"
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleChange}
-                    className='w-4 h-4 text-purple-600 bg-white/20 border-white/30 rounded focus:ring-purple-500 focus:ring-2'
+                    className='w-4 h-4 rounded border-white/30 bg-white/20 text-purple-600 focus:ring-purple-500'
                   />
-                  <span className='ml-2 text-white/80'>Remember me</span>
-                </label>
-                <Link to="/forgot-password" className='text-purple-300 hover:text-purple-200 transition-colors'>
+                  <label htmlFor="rememberMe" className='ml-2 text-sm text-white/80'>
+                    Remember me
+                  </label>
+                </div>
+                <Link to="/forgot-password" className='text-sm text-purple-300 hover:text-purple-200 transition-colors'>
                   Forgot password?
                 </Link>
               </div>
@@ -199,7 +207,7 @@ const Login = () => {
               <div className='grid grid-cols-2 gap-4'>
                 <button
                   type="button"
-                  onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
+                  onClick={googleLogin}
                   className='flex items-center justify-center px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 rounded-2xl text-white hover:bg-white/20 transition-all duration-300'
                 >
                   <span className='mr-2'>🔍</span>

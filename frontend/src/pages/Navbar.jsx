@@ -29,15 +29,15 @@ const Navbar = () => {
                     <div className='text-2xl font-bold text-white drop-shadow-lg'>Dravidian University</div>
                 </div>
                 <div className='flex gap-8 items-center'>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg" to={"/"}>🏠 Home</Link>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg" to={"/jobs"}>💼 Jobs</Link>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg" to={"/courses"}>📚 Courses</Link>
+                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/"}>🏠 Home</Link>
+                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/jobs"}>💼 Jobs</Link>
+                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/courses"}>📚 Courses</Link>
 
                     {!loading && (
                         isAuthenticated ? (
                             <UserProfile />
                         ) : (
-                            <Link to={"/signin"} className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-pink-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg">Login/Signup</Link>
+                            <Link to={"/signin"} className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-pink-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto">Login/Signup</Link>
                         )
                     )}
                 </div>

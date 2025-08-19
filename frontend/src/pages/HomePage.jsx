@@ -1,5 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
+import LazySection from '../components/homepage/LazySection'
+
+// Lazy load components
+const HeroSection = lazy(() => import('../components/homepage/HeroSection'))
+const FeaturesSection = lazy(() => import('../components/homepage/FeaturesSection'))
+const TeamSection = lazy(() => import('../components/homepage/TeamSection'))
+const FAQSection = lazy(() => import('../components/homepage/FAQSection'))
+const StatsSection = lazy(() => import('../components/homepage/StatsSection'))
+const CursorEffects = lazy(() => import('../components/homepage/CursorEffects'))
 
 const HomePage = () => {
   const [openFAQ, setOpenFAQ] = useState(null)
@@ -168,373 +177,251 @@ const HomePage = () => {
 
   return (
     <div className="cursor-none">
-      {/* Custom Cursor */}
-      <div
-        ref={cursorRef}
-        className={`fixed pointer-events-none z-50 w-8 h-8 rounded-full border-2 border-purple-400 transition-all duration-300 ease-out ${isHovering ? 'scale-150 border-pink-400 bg-pink-400/20' : 'scale-100'
-          }`}
-        style={{
-          transform: 'translate(-50%, -50%)',
-          mixBlendMode: 'difference'
-        }}
-      />
-      <div
-        ref={cursorDotRef}
-        className="fixed pointer-events-none z-50 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full transition-all duration-100 ease-out"
-        style={{
-          transform: 'translate(-50%, -50%)'
-        }}
+      {/* Cursor Effects - Always visible, outside Suspense */}
+      <CursorEffects 
+        mousePosition={mousePosition} 
+        isHovering={isHovering} 
+        cursorRef={cursorRef} 
+        cursorDotRef={cursorDotRef} 
       />
 
-      {/* Cursor Trail Effect */}
-      <div
-        className="fixed pointer-events-none z-40 w-32 h-32 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 blur-xl transition-all duration-500 ease-out"
-        style={{
-          left: mousePosition.x,
-          top: mousePosition.y,
-          transform: 'translate(-50%, -50%)'
-        }}
+      {/* Hero Section - Load immediately, outside Suspense */}
+      <HeroSection 
+        mousePosition={mousePosition} 
+        isHovering={isHovering} 
+        eyePosition={eyePosition} 
+        isBlinking={isBlinking} 
+        dollRef={dollRef} 
       />
 
       <div>
-        <div className='relative z-10 flex flex-col items-center justify-center min-h-[80vh] text-center px-6'>
-          <div className='relative'>
-            <h1 className='text-7xl font-bold text-white mb-6 drop-shadow-2xl transform hover:scale-105 transition-transform duration-500'>
-              Welcome to
-              <span className='block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse'>
-                Quantum Job Tracker
-              </span>
-            </h1>
-            <div className='absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl rounded-full'></div>
-
-            {/* Simple Human Eye behind header text that watches cursor */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-40">
-              <div
-                ref={dollRef}
-                className="relative transform translate-x-0 translate-y-95"
-              >
-                {/* Simple Human Eye */}
-                <div className="relative w-80 h-40">
-                  {/* Eye Shape */}
-                  <div
-                    className="w-full h-full relative overflow-hidden"
-                    style={{
-                      clipPath: 'ellipse(50% 100% at 50% 50%)',
-                      background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(240,240,240,0.8))'
-                    }}
-                  >
-                    {/* Iris */}
-                    <div
-                      className="absolute w-24 h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-700 shadow-lg"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)'
-                      }}
-                    >
-                      {/* Pupil that follows cursor */}
-                      <div
-                        className="absolute w-10 h-10 bg-black rounded-full transition-all duration-300 ease-out"
-                        style={{
-                          left: `calc(50% + ${eyePosition.x * 2}px)`,
-                          top: `calc(50% + ${eyePosition.y * 2}px)`,
-                          transform: 'translate(-50%, -50%)'
-                        }}
-                      >
-                        {/* Light reflection */}
-                        <div className="absolute top-1 left-1 w-2.5 h-2.5 bg-white rounded-full opacity-90"></div>
-                      </div>
+          {/* Features Section - Lazy load */}
+          <Suspense fallback={
+            <div className="section-placeholder" style={{ height: '500px' }}>
+              <div className="max-w-6xl mx-auto px-6">
+                {/* Title placeholder - matches "Why Choose Dravidian University?" */}
+                <div className="skeleton-pulse h-12 w-3/4 mx-auto mb-16 rounded-lg"></div>
+                
+                {/* Features cards placeholder - matches the 3 feature cards */}
+                <div className="grid md:grid-cols-3 gap-8">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
+                      {/* Icon placeholder - matches the gradient circle with emoji */}
+                      <div className="skeleton-pulse-circle w-16 h-16 rounded-full mx-auto mb-6"></div>
+                      {/* Title placeholder - matches "Academic Excellence", etc. */}
+                      <div className="skeleton-pulse h-6 w-3/4 mx-auto mb-4 rounded-lg"></div>
+                      {/* Text placeholder - matches the description paragraph */}
+                      <div className="skeleton-pulse h-4 w-full mx-auto mb-2 rounded-lg"></div>
+                      <div className="skeleton-pulse h-4 w-5/6 mx-auto rounded-lg"></div>
                     </div>
-                  </div>
-
-                  {/* Eyelids for blinking */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-b from-orange-100 to-orange-200 transition-all duration-200 ease-out ${isBlinking ? 'opacity-100' : 'opacity-0'
-                      }`}
-                    style={{
-                      clipPath: 'ellipse(50% 100% at 50% 50%)'
-                    }}
-                  />
-
-                  {/* Simple eyebrow */}
-                  <div
-                    className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-24 h-3 bg-amber-800 rounded-full opacity-60"
-                  />
-                </div>
-
-                {/* Glowing effect when hovering */}
-                {isHovering && (
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-400/30 via-purple-400/30 to-blue-400/30 rounded-full animate-pulse blur-2xl scale-110"></div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <p className='text-xl text-white/90 mb-12 max-w-2xl leading-relaxed drop-shadow-lg'>
-            Discover endless opportunities and shape your future with our comprehensive job portal.
-          </p>
-
-          <div className='flex gap-6'>
-            <Link to={"/jobs"} className='interactive px-10 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold rounded-full shadow-2xl hover:shadow-blue-500/25 transform hover:scale-110 hover:-translate-y-2 transition-all duration-300 border border-white/20'>
-              Explore Jobs
-            </Link>
-            <button className='interactive px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold rounded-full shadow-2xl hover:shadow-purple-500/25 transform hover:scale-110 hover:-translate-y-2 transition-all duration-300 border border-white/20'>
-              Learn More
-            </button>
-          </div>
-
-          {/* Floating cards */}
-          <div className='absolute top-20 left-10 transform rotate-12 hover:rotate-0 transition-transform duration-500 interactive'>
-            <div className='w-32 h-32 bg-gradient-to-br from-blue-400/30 to-purple-500/30 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl'></div>
-          </div>
-          <div className='absolute bottom-32 right-10 transform -rotate-12 hover:rotate-0 transition-transform duration-500 interactive'>
-            <div className='w-40 h-40 bg-gradient-to-br from-pink-400/30 to-purple-500/30 backdrop-blur-lg rounded-2xl border border-white/20 shadow-xl'></div>
-          </div>
-        </div>
-
-        <div className='relative z-10 py-20 px-6'>
-          <div className='max-w-6xl mx-auto'>
-            <h2 className='text-5xl font-bold text-white text-center mb-16 drop-shadow-2xl'>
-              Why Choose <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Dravidian University?</span>
-            </h2>
-
-            <div className='grid md:grid-cols-3 gap-8'>
-              <div className='interactive bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300'>
-                <div className='w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-6 mx-auto'>
-                  <span className='text-2xl'>🎓</span>
-                </div>
-                <h3 className='text-2xl font-bold text-white mb-4 text-center'>Academic Excellence</h3>
-                <p className='text-white/80 text-center leading-relaxed'>World-class education with cutting-edge curriculum and experienced faculty members.</p>
-              </div>
-
-              <div className='interactive bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300'>
-                <div className='w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mb-6 mx-auto'>
-                  <span className='text-2xl'>💼</span>
-                </div>
-                <h3 className='text-2xl font-bold text-white mb-4 text-center'>Career Opportunities</h3>
-                <p className='text-white/80 text-center leading-relaxed'>Extensive job portal connecting students with top employers and career guidance.</p>
-              </div>
-
-              <div className='interactive bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300'>
-                <div className='w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mb-6 mx-auto'>
-                  <span className='text-2xl'>🌟</span>
-                </div>
-                <h3 className='text-2xl font-bold text-white mb-4 text-center'>Innovation Hub</h3>
-                <p className='text-white/80 text-center leading-relaxed'>State-of-the-art facilities fostering research, innovation, and entrepreneurship.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className='relative z-10 py-10 px-6 overflow-hidden'>
-          <div className='max-w-6xl mx-auto'>
-            <h2 className='text-5xl font-bold text-white text-center mb-16 drop-shadow-2xl'>
-              Meet Our <span className='bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent'>Team</span>
-            </h2>
-
-            <div className='relative'>
-              <div className='flex gap-8 animate-scroll'>
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👨‍💻</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Reddy Prasad</h3>
-                  <p className='text-purple-300 mb-2'>Developer</p>
-                  <p className='text-white/70 text-sm'>Over 2 years of experience in Developing Full stack Applications</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👩‍💼</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Surendra Babu</h3>
-                  <p className='text-purple-300 mb-2'>Project Co-Ordinator</p>
-                  <p className='text-white/70 text-sm'>One of the Dare-Dashing Presentator</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👨</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Aishwarya</h3>
-                  <p className='text-purple-300 mb-2'>Project Lead</p>
-                  <p className='text-white/70 text-sm'>One of the Pioneering Team Lead Since 2019</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-blue-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👩‍🔬</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Tej Kumar</h3>
-                  <p className='text-purple-300 mb-2'>Team Organizer</p>
-                  <p className='text-white/70 text-sm'>One Of the Best Team Organizer Ever</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-blue-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👩‍🔬</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Bhavya</h3>
-                  <p className='text-purple-300 mb-2'>Data Grabber</p>
-                  <p className='text-white/70 text-sm'>Collect Data From Various Sources</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-blue-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👨‍💼</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Bhanu Prasad</h3>
-                  <p className='text-purple-300 mb-2'>Project Manager</p>
-                  <p className='text-white/70 text-sm'>Experienced Project Manager with Leadership Skills</p>
-                </div>
-
-                {/* Duplicate cards for seamless loop */}
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👨‍💻</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Reddy Prasad</h3>
-                  <p className='text-purple-300 mb-2'>Developer</p>
-                  <p className='text-white/70 text-sm'>Over 2 years of experience in Developing Full stack Applications</p>
-                </div>
-
-                <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 text-center min-w-[280px]'>
-                  <div className='w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mx-auto mb-4 flex items-center justify-center'>
-                    <span className='text-3xl text-white'>👩‍💼</span>
-                  </div>
-                  <h3 className='text-xl font-bold text-white mb-2'>Surendra Babu</h3>
-                  <p className='text-purple-300 mb-2'>Project Co-Ordinator</p>
-                  <p className='text-white/70 text-sm'>One of the Dare-Dashing Presentator</p>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
+          }>
+            <LazySection>
+              <FeaturesSection />
+            </LazySection>
+          </Suspense>
+
+          {/* Team Section - Lazy load */}
+          <Suspense fallback={
+            <div className="section-placeholder" style={{ height: '550px' }}>
+              <div className="max-w-6xl mx-auto px-6">
+                {/* Title placeholder - matches "Meet Our Team" */}
+                <div className="skeleton-pulse h-12 w-2/4 mx-auto mb-16 rounded-lg"></div>
+                
+                {/* Team cards placeholder - horizontal scroll with animation */}
+                <div className="relative">
+                  <div className="flex gap-8" style={{ overflowX: 'hidden' }}>
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl min-w-[280px] text-center">
+                        {/* Avatar placeholder - matches the gradient circle with emoji */}
+                        <div className="skeleton-pulse-circle w-24 h-24 rounded mx-auto mb-4"></div>
+                        {/* Name placeholder - matches "Reddy Prasad", etc. */}
+                        <div className="skeleton-pulse h-5 w-3/4 mx-auto mb-2 rounded-lg"></div>
+                        {/* Role placeholder - matches "Developer", etc. */}
+                        <div className="skeleton-pulse h-4 w-1/2 mx-auto mb-2 rounded-lg"></div>
+                        {/* Bio placeholder - matches the description text */}
+                        <div className="skeleton-pulse h-3 w-5/6 mx-auto rounded-lg"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          }>
+            <LazySection>
+              <TeamSection />
+            </LazySection>
+          </Suspense>
+
+          {/* FAQ Section - Lazy load */}
+          <Suspense fallback={
+            <div className="section-placeholder" style={{ height: '600px' }}>
+              <div className="max-w-4xl mx-auto px-6">
+                {/* Title placeholder - matches "Frequently Asked Questions" */}
+                <div className="skeleton-pulse h-8 w-4/5 mx-auto mb-16 rounded-lg"></div>
+                
+                {/* FAQ items placeholder - matches the expandable FAQ items */}
+                <div className="space-y-6">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+                      <div className="p-6 flex justify-between items-center">
+                        {/* Question placeholder - matches the question text */}
+                        <div className="skeleton-pulse h-6 w-4/5 rounded-lg"></div>
+                        {/* Arrow placeholder - matches the dropdown arrow */}
+                        <div className="skeleton-pulse h-6 w-6 rounded-full"></div>
+                      </div>
+                      {/* First item shows a hint of the answer area */}
+                      {i === 1 && (
+                        <div className="px-6 pb-6 opacity-30">
+                          <div className="skeleton-pulse h-4 w-full rounded-lg mb-2"></div>
+                          <div className="skeleton-pulse h-4 w-5/6 rounded-lg"></div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          }>
+            <LazySection>
+              <FAQSection 
+                faqs={faqs} 
+                openFAQ={openFAQ} 
+                toggleFAQ={toggleFAQ} 
+              />
+            </LazySection>
+          </Suspense>
+
+          {/* Stats Section - Lazy load */}
+          <Suspense fallback={
+            <div className="section-placeholder" style={{ height: '300px' }}>
+              <div className="max-w-6xl mx-auto px-6">
+                <div className="grid md:grid-cols-4 gap-8 text-center">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
+                      {/* Number placeholder - matches "1,000+", "200+", "95%", "28+" */}
+                      <div className="skeleton-pulse h-10 w-1/2 mx-auto mb-2 rounded-lg"></div>
+                      {/* Label placeholder - matches "Students", "Faculty Members", etc. */}
+                      <div className="skeleton-pulse h-5 w-3/4 mx-auto rounded-lg"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          }>
+            <LazySection>
+              <StatsSection />
+            </LazySection>
+          </Suspense>
 
           <style jsx>{`
-          @keyframes scroll {
-            0% {
-              transform: translateX(0);
+            @keyframes scroll {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-50%);
+              }
             }
-            100% {
-              transform: translateX(-50%);
+            
+            .animate-scroll {
+              animation: scroll 20s linear infinite;
             }
-          }
-          
-          .animate-scroll {
-            animation: scroll 20s linear infinite;
-          }
-          
-          .animate-scroll:hover {
-            animation-play-state: paused;
-          }
-        `}</style>
+            
+            .animate-scroll:hover {
+              animation-play-state: paused;
+            }
+
+            .animation-delay-200 {
+              animation-delay: 0.2s;
+            }
+            
+            .animation-delay-400 {
+              animation-delay: 0.4s;
+            }
+
+            /* Hide default cursor on the entire page */
+            * {
+              cursor: none !important;
+            }
+
+            /* Smooth cursor movement */
+            .cursor-none * {
+              cursor: none !important;
+            }
+
+            /* Section placeholder for lazy loading */
+            .section-placeholder {
+              width: 100%;
+              border-radius: 1rem;
+              margin: 2rem 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              overflow: hidden;
+            }
+            
+            /* Skeleton pulse animation for text elements */
+            .skeleton-pulse {
+              background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+              background-size: 200% 100%;
+              animation: shimmer 1.5s infinite;
+              border-radius: 0.5rem;
+              position: relative;
+              overflow: hidden;
+            }
+            
+            .skeleton-pulse::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              transform: translateX(-100%);
+              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+              animation: shine 2s infinite;
+            }
+            
+            /* Skeleton pulse animation for circular elements */
+            .skeleton-pulse-circle {
+              background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+              background-size: 200% 100%;
+              animation: shimmer 1.5s infinite;
+              position: relative;
+              overflow: hidden;
+            }
+            
+            .skeleton-pulse-circle::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              transform: translateX(-100%);
+              background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+              animation: shine 2s infinite;
+              border-radius: 50%;
+            }
+            
+            @keyframes shimmer {
+              0% {
+                background-position: 200% 0;
+              }
+              100% {
+                background-position: -200% 0;
+              }
+            }
+            
+            @keyframes shine {
+              100% { transform: translateX(100%); }
+            }
+          `}</style>
         </div>
-
-        {/* FAQ Section */}
-        <div className='relative z-10 py-20 px-6'>
-          <div className='max-w-4xl mx-auto'>
-            <h2 className='text-5xl font-bold text-white text-center mb-16 drop-shadow-2xl'>
-              Frequently Asked <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Questions</span>
-            </h2>
-
-            <div className='space-y-6'>
-              {faqs.map((faq, index) => (
-                <div key={index} className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl overflow-hidden'>
-                  <button
-                    onClick={() => toggleFAQ(index)}
-                    className='w-full p-6 text-left flex justify-between items-center hover:bg-white/5 transition-all duration-300'
-                  >
-                    <h3 className='text-xl font-bold text-white'>{faq.question}</h3>
-                    <span className={`text-white text-2xl transform transition-transform duration-300 ${openFAQ === index ? 'rotate-180' : ''}`}>
-                      ▼
-                    </span>
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-300 ${openFAQ === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                    <div className='px-6 pb-6'>
-                      <p className='text-white/80 leading-relaxed'>{faq.answer}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Statistics Section */}
-        <div className='relative z-10 py-20 px-6'>
-          <div className='max-w-6xl mx-auto'>
-            <div className='grid md:grid-cols-4 gap-8 text-center'>
-              <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-                <div className='text-4xl font-bold text-white mb-2'>1,000+</div>
-                <div className='text-purple-300'>Students</div>
-              </div>
-              <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-                <div className='text-4xl font-bold text-white mb-2'>200+</div>
-                <div className='text-purple-300'>Faculty Members</div>
-              </div>
-              <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-                <div className='text-4xl font-bold text-white mb-2'>95%</div>
-                <div className='text-purple-300'>Placement Rate</div>
-              </div>
-              <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-                <div className='text-4xl font-bold text-white mb-2'>28+</div>
-                <div className='text-purple-300'>Years of Excellence</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Particle effect that follows cursor */}
-        <div
-          className="fixed pointer-events-none z-30"
-          style={{
-            left: mousePosition.x,
-            top: mousePosition.y,
-            transform: 'translate(-50%, -50%)'
-          }}
-        >
-          <div className="w-1 h-1 bg-blue-400 rounded-full animate-ping"></div>
-          <div className="w-1 h-1 bg-purple-400 rounded-full animate-ping animation-delay-200 absolute top-2 left-2"></div>
-          <div className="w-1 h-1 bg-pink-400 rounded-full animate-ping animation-delay-400 absolute top-1 left-3"></div>
-        </div>
-
-        <style jsx>{`
-        @keyframes scroll {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        
-        .animate-scroll {
-          animation: scroll 20s linear infinite;
-        }
-        
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
-
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-        }
-
-        /* Hide default cursor on the entire page */
-        * {
-          cursor: none !important;
-        }
-
-        /* Smooth cursor movement */
-        .cursor-none * {
-          cursor: none !important;
-        }
-      `}</style>
-      </div>
     </div>
   )
 }

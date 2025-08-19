@@ -1,12 +1,82 @@
-import User from "../database/jobSchema.js"; 
+import User from "../database/jobSchema.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import dotenv from "dotenv";
-import {randomTokenGen}from"../middleware/randomTokenGen.js";
+import { randomTokenGen } from "../middleware/randomTokenGen.js";
 import { forgotPasswordMail, resetPasswordMail, verificationMail } from "../Mail/mail.js";
 import { setCookiesAndToken } from "../middleware/jwtAuth.js";
 
 dotenv.config()
+
+export const updateProfile = async (req, res) => {
+  const { firstName, lastName } = req.body;
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    // Update fields if provided
+    if (firstName) {
+      user.firstName = firstName;
+    }
+    
+    if (lastName) {
+      user.lastName = lastName;
+    }
+    
+    // Handle file upload
+    if (req.file) {
+      // Create relative path to the uploaded file
+      const profileImagePath = `/uploads/profiles/${req.file.filename}`;
+      user.profilePicture = profileImagePath;
+    }
+    
+    await user.save();
+    
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      user: { 
+        ...user._doc, 
+        password: undefined
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    
+    // Verify current password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+    
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    
+    await user.save();
+    
+    return res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 export const Signup = async (req, res) => {
   const { userName, email, password } = req.body;
   console.log("userName", userName, "email", email, "password", password);
@@ -159,11 +229,13 @@ export const resetPassword=async(req,res)=>{
     const {token}=req.params
     const {password}=req.body
 
-    console.log("token",token,"password",password,"req.params",req.params)
 
     console.log("token",token,"password",password)
 
     try {
+      if(!password){
+        return res.status(400).json({message:"Password is required"})
+      }
         const exist=await User.findOne({
             resetPasswordToken:token,
             resetPasswordExpire:{$gt:Date.now()}
@@ -186,6 +258,45 @@ export const resetPassword=async(req,res)=>{
     }
     
 }
+
+export const checkEmailAvailability = async (req, res) => {
+    const { email } = req.body;
+    
+    if (!email) {
+        return res.status(400).json({ message: "Email is required" });
+    }
+    
+    try {
+        // Check if email is valid format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ 
+                available: false,
+                message: "Invalid email format" 
+            });
+        }
+        
+        // Check if email exists in database
+        const existingUser = await User.findOne({ email });
+        
+        if (existingUser) {
+            return res.status(200).json({ 
+                available: false,
+                message: "Email is already registered" 
+            });
+        }
+        
+        return res.status(200).json({ 
+            available: true,
+            message: "Email is available" 
+        });
+        
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 export const authUser=async(req,res)=>{
   console.log(req.user)
   try {
@@ -201,17 +312,16 @@ export const authUser=async(req,res)=>{
   }
 }
 export const logout = async (req, res) => {
-  const cookie = req.cookies.auth;
-  console.log("cookie from Logout", cookie);
-
   try {
-    // Clear the auth cookie
-    res.clearCookie('auth');
+    const cookie = req.cookies.auth;
+    console.log("cookie from Logout", cookie);
 
-    // Send a success response
+    localStorage.clear();
+    cookie.clear();
+
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
-    console.log(error.message);
+    console.error("Logout error:", error.message);
     res.status(500).json({ message: "Internal Server Error" });
   }
-}
+};

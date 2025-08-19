@@ -166,7 +166,7 @@ const Courses = () => {
 
       {/* Header Section */}
       <div className='relative z-10 text-center py-12 px-6'>
-        <h1 className='text-6xl font-bold text-white mb-4 drop-shadow-2xl'>
+        <h1 className='text-6xl select-none font-bold text-white mb-4 drop-shadow-2xl'>
           Explore Our <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Courses</span>
         </h1>
         <p className='text-xl text-white/90 mb-8 max-w-2xl mx-auto'>
@@ -181,7 +181,7 @@ const Courses = () => {
             <div className='grid md:grid-cols-2 gap-6'>
               {/* Category Filter */}
               <div>
-                <label className='block text-white font-semibold mb-3'>Course Category</label>
+                <label className='block text-white  font-semibold mb-3'>Course Category</label>
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}

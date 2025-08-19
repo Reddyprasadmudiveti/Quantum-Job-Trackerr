@@ -22,6 +22,7 @@
     "git": "^0.1.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.17.1",
+    "multer": "^2.0.2",
     "nodemailer": "^7.0.5",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",

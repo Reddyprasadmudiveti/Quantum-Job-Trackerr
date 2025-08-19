@@ -23,14 +23,28 @@ const UserProfile = () => {
   if (!user) return null;
 
   const isLogout = async () => {
-    console.log("Hello")
     try {
-      await axios.post('http://localhost:3000/api/auth/logout');
+      const response = await fetch('http://localhost:3000/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include', // Important for cookies
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        console.error('Logout failed on server');
+      } else {
+        console.log("Logged out successfully");
+      }
+      
+      // Always logout on client side even if server request fails
       logout();
-      console.log("Log out Sucessfully")
+      window.location.href = '/signin';
     } catch (error) {
       console.error('Logout error:', error);
       logout(); // Still logout on client side even if server request fails
+      window.location.href = '/signin';
     }
   }
 
@@ -72,7 +86,7 @@ const UserProfile = () => {
             <button
               onClick={() => {
                 setShowDropdown(false);
-                // Navigate to profile page
+                window.location.href = '/profile/settings';
               }}
               className="w-full text-left px-4 py-2 text-white hover:bg-white/10 rounded-xl transition-colors duration-200"
             >
@@ -102,7 +116,7 @@ const UserProfile = () => {
                 setShowDropdown(false);
                 isLogout();
               }}
-              className="w-full text-left px-4 py-2 text-red-500  pointer hover:bg-red-500/20 hover:text-red-200 rounded-xl transition-colors duration-200"
+              className="w-full text-left px-4 py-2 text-red-500 pointer hover:bg-red-500/20 hover:text-red-200 rounded-xl transition-colors duration-200"
             >
               🚪 Logout
             </button>

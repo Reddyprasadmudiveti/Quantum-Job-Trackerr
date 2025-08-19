@@ -16,9 +16,9 @@ const AuthSuccess = () => {
         const userData = JSON.parse(decodeURIComponent(userParam));
         login(userData, token);
         
-        // Redirect to dashboard or home page
+        // Redirect to jobs page
         setTimeout(() => {
-          navigate('/', { replace: true });
+          navigate('/jobs', { replace: true });
         }, 2000);
       } catch (error) {
         console.error('Error parsing user data:', error);

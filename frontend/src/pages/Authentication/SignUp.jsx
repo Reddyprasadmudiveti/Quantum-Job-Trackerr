@@ -1,39 +1,29 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { FaEye, FaEyeSlash, FaGoogle, FaFacebook } from 'react-icons/fa'
+import { useAuth } from '../../contexts/AuthContext'
 
 const SignUp = () => {
+  const navigate = useNavigate()
+  const { googleLogin } = useAuth()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    studentId: '',
-    department: '',
-    year: '',
     agreeToTerms: false
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState({})
+  const [formError, setFormError] = useState('')
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false)
+  const [emailTimeout, setEmailTimeout] = useState(null)
 
-  const departments = [
-    'Computer Science',
-    'Information Technology',
-    'Electronics & Communication',
-    'Mechanical Engineering',
-    'Civil Engineering',
-    'Business Administration',
-    'Commerce',
-    'Arts & Literature',
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology'
-  ]
-
-  const years = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Graduate', 'Post Graduate']
+  // Simplified component - removed departments and years arrays
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -49,26 +39,101 @@ const SignUp = () => {
         [name]: ''
       }))
     }
+    
+    // Check email availability with debounce
+    if (name === 'email' && value.trim() !== '') {
+      // Clear any existing timeout
+      if (emailTimeout) {
+        clearTimeout(emailTimeout)
+      }
+      
+      // Set a new timeout to check email after user stops typing
+      const newTimeout = setTimeout(() => {
+        validateEmail(value)
+      }, 800) // Wait 800ms after user stops typing
+      
+      setEmailTimeout(newTimeout)
+    }
+  }
+  
+  const validateEmail = async (email) => {
+    // Basic email format validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors(prev => ({
+        ...prev,
+        email: 'Email is invalid'
+      }))
+      return
+    }
+    
+    setIsCheckingEmail(true)
+    
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/auth/check-email',
+        { email },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      
+      if (!response.data.available) {
+        setErrors(prev => ({
+          ...prev,
+          email: response.data.message
+        }))
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          email: ''
+        }))
+      }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error checking email'
+      setErrors(prev => ({
+        ...prev,
+        email: errorMessage
+      }))
+    } finally {
+      setIsCheckingEmail(false)
+    }
   }
 
   const validateForm = () => {
     const newErrors = {}
 
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
-    if (!formData.email.trim()) newErrors.email = 'Email is required'
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid'
-    
-    if (!formData.password) newErrors.password = 'Password is required'
-    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters'
-    
-    if (!formData.confirmPassword) newErrors.confirmPassword = 'Please confirm your password'
-    else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Passwords do not match'
-    
-    if (!formData.studentId.trim()) newErrors.studentId = 'Student ID is required'
-    if (!formData.department) newErrors.department = 'Please select your department'
-    if (!formData.year) newErrors.year = 'Please select your year'
-    if (!formData.agreeToTerms) newErrors.agreeToTerms = 'You must agree to the terms and conditions'
+    // Required fields
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required'
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required'
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Email is invalid'
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required'
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters'
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password'
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match'
+    }
+
+    if (!formData.agreeToTerms) {
+      newErrors.agreeToTerms = 'You must agree to the terms and conditions'
+    }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -76,17 +141,48 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    if (!validateForm()) return
+
+    if (!validateForm()) {
+      return
+    }
 
     setIsLoading(true)
-    
-    // Simulate signup process
-    setTimeout(() => {
+    setFormError('')
+
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/auth/signup',
+        {
+          userName: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          password: formData.password
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        }
+      )
+
       setIsLoading(false)
-      console.log('Signup attempt:', formData)
-      // Handle signup logic here
-    }, 2000)
+      
+      // Store email for verification page
+      localStorage.setItem('pendingVerificationEmail', formData.email)
+      
+      // Redirect to verification page
+      navigate('/verify-email')
+    } catch (error) {
+      setIsLoading(false)
+      
+      // Extract error message from axios error response
+      const errorMessage = error.response?.data?.message || error.message || 'An error occurred during signup. Please try again.'
+      
+      setErrors(prev => ({
+        ...prev,
+        form: errorMessage
+      }))
+    }
   }
 
   return (
@@ -108,6 +204,12 @@ const SignUp = () => {
 
             {/* Signup Form */}
             <form onSubmit={handleSubmit} className='space-y-6'>
+              {/* Form Error Message */}
+              {errors.form && (
+                <div className='p-4 mb-4 text-sm text-red-300 bg-red-500/20 backdrop-blur-sm rounded-2xl border border-red-400/30'>
+                  {errors.form}
+                </div>
+              )}
               {/* Name Fields */}
               <div className='grid md:grid-cols-2 gap-4'>
                 <div>
@@ -158,68 +260,24 @@ const SignUp = () => {
                     placeholder="Enter your email"
                   />
                   <div className='absolute inset-y-0 right-0 pr-4 flex items-center'>
-                    <span className='text-white/50'>📧</span>
+                    {isCheckingEmail ? (
+                      <svg className="animate-spin h-5 w-5 text-white/70" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    ) : errors.email ? (
+                      <span className='text-red-400'>❌</span>
+                    ) : formData.email && !errors.email ? (
+                      <span className='text-green-400'>✓</span>
+                    ) : (
+                      <span className='text-white/50'>📧</span>
+                    )}
                   </div>
                 </div>
                 {errors.email && <p className='text-red-300 text-sm mt-1'>{errors.email}</p>}
               </div>
 
-              {/* Student ID and Department */}
-              <div className='grid md:grid-cols-2 gap-4'>
-                <div>
-                  <label htmlFor="studentId" className='block text-white font-semibold mb-2'>
-                    Student ID *
-                  </label>
-                  <input
-                    type="text"
-                    id="studentId"
-                    name="studentId"
-                    value={formData.studentId}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 bg-white/20 backdrop-blur-sm border ${errors.studentId ? 'border-red-400' : 'border-white/30'} rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300`}
-                    placeholder="Enter student ID"
-                  />
-                  {errors.studentId && <p className='text-red-300 text-sm mt-1'>{errors.studentId}</p>}
-                </div>
-                <div>
-                  <label htmlFor="department" className='block text-white font-semibold mb-2'>
-                    Department *
-                  </label>
-                  <select
-                    id="department"
-                    name="department"
-                    value={formData.department}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 bg-white/20 backdrop-blur-sm border ${errors.department ? 'border-red-400' : 'border-white/30'} rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300`}
-                  >
-                    <option value="" className='bg-gray-800'>Select Department</option>
-                    {departments.map(dept => (
-                      <option key={dept} value={dept} className='bg-gray-800'>{dept}</option>
-                    ))}
-                  </select>
-                  {errors.department && <p className='text-red-300 text-sm mt-1'>{errors.department}</p>}
-                </div>
-              </div>
-
-              {/* Year */}
-              <div>
-                <label htmlFor="year" className='block text-white font-semibold mb-2'>
-                  Academic Year *
-                </label>
-                <select
-                  id="year"
-                  name="year"
-                  value={formData.year}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-white/20 backdrop-blur-sm border ${errors.year ? 'border-red-400' : 'border-white/30'} rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300`}
-                >
-                  <option value="" className='bg-gray-800'>Select Year</option>
-                  {years.map(year => (
-                    <option key={year} value={year} className='bg-gray-800'>{year}</option>
-                  ))}
-                </select>
-                {errors.year && <p className='text-red-300 text-sm mt-1'>{errors.year}</p>}
-              </div>
+              {/* No additional fields needed for backend */}
 
               {/* Password Fields */}
               <div className='grid md:grid-cols-2 gap-4'>
@@ -327,7 +385,7 @@ const SignUp = () => {
               <div className='grid grid-cols-2 gap-4'>
                 <button
                   type="button"
-                  onClick={() => window.location.href = 'http://localhost:3000/auth/google'}
+                  onClick={googleLogin}
                   className='flex items-center justify-center px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/30 rounded-2xl text-white hover:bg-white/20 transition-all duration-300'
                 >
                   <span className='mr-2'>🔍</span>
