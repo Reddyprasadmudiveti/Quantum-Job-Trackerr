@@ -1,44 +1,49 @@
 export const verificationCodeTemplate = `
-  <div style="background-color: #C6F4D6; padding: 20px; border-radius: 10px;">
-    <h1 style="color: #4CAF50;">Hello {{ email }}</h1>
-    <h2 style="color: #4CAF50;">Verification Code :</h2>
-    <p>Your verification code is: <strong style="color: #4CAF50; font-weight: bold">{{ verificationCode }}</strong></p>
-    <p style="color: #4CAF50;">This code is valid for {{ validityDate }} At {{ validityTime }}.</p>
+  <div style="background: linear-gradient(135deg, #312e81 0%, #6b21a8 50%, #831843 100%); padding: 30px; border-radius: 10px; color: white; font-family: Arial, sans-serif;">
+    <h1 style="color: white; margin-bottom: 20px;">Hello {{ email }}</h1>
+    <h2 style="color: white;">Verification Code:</h2>
+    <div style="background-color: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.1);">
+      <p style="font-size: 24px; font-weight: bold; text-align: center; margin: 0; color: #10b981;">{{ verificationCode }}</p>
+    </div>
+    <p>This code is valid until {{ validityDate }} at {{ validityTime }}.</p>
     <p>If you did not request this, please ignore this email.</p>
-    <p>Best,</p>
-    <p>Your Team</p>
+    <div style="margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px;">
+      <p>Best regards,</p>
+      <p>Quantum Job Tracker Team</p>
+    </div>
   </div>
 `;
 
 export const resetPasswordTemplate = `
-  <div style="background-color: #C6F4D6; padding: 20px; border-radius: 10px; items-align: center; justify-content: center;">
-    <h1 style="color: #4CAF50;">Hello {{ email }}</h1>
-    <p style="color: #4CAF50;">You have requested a password reset.</p>
-    <p style="color: #4CAF50;">To reset your password, please click the button below:</p>
-    <p style="color: #4CAF50;">This token is valid for {{ validityDate }} At {{ validityTime }}.</p>
-    <p style="color: #4CAF50;">If you did not request this, please ignore this email.</p>
-    <a href="{{ resetUrl }}" style="background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin-top: 10px;">Click here to Reset Password</a>
-    <p>Best ,</p>
-    <p>Your Team</p>
+  <div style="background: linear-gradient(135deg, #312e81 0%, #6b21a8 50%, #831843 100%); padding: 30px; border-radius: 10px; color: white; font-family: Arial, sans-serif;">
+    <h1 style="color: white; margin-bottom: 20px;">Hello {{ email }}</h1>
+    <p>You have requested a password reset.</p>
+    <p>To reset your password, please click the button below:</p>
+    <p>This link is valid until {{ validityDate }} at {{ validityTime }}.</p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="{{ resetUrl }}" style="background-color: #10b981; color: white; padding: 12px 25px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">Reset Password</a>
+    </div>
+    <p>If you did not request this, please ignore this email.</p>
+    <div style="margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px;">
+      <p>Best regards,</p>
+      <p>Quantum Job Tracker Team</p>
+    </div>
   </div>
 `;
-export const resetPasswordSucessTemplate = `
-  <div style="background-color: #C6F4D6;margin:40px 0px; padding: 20px; border-radius: 10px; items-align: center; justify-content: center;">
-    <h1 style="color: #4CAF50;">Hello {{ email }}</h1>
-    <p style="color: #4CAF50;">Your password has been successfully reset.</p>
 
-     <p>We're writing to confirm that your password has been successfully reset.</p>
+export const resetPasswordSucessTemplate = `
+  <div style="background: linear-gradient(135deg, #312e81 0%, #6b21a8 50%, #831843 100%); padding: 30px; border-radius: 10px; color: white; font-family: Arial, sans-serif;">
+    <h1 style="color: white; margin-bottom: 20px;">Hello {{ email }}</h1>
+    <p>Your password has been successfully reset.</p>
     <div style="text-align: center; margin: 30px 0;">
-      <div style="background-color: #4CAF50; color: white; width: 50px; height: 50px; line-height: 50px; border-radius: 50%; display: inline-block; font-size: 30px;">
+      <div style="background-color: #10b981; color: white; width: 60px; height: 60px; line-height: 60px; border-radius: 50%; display: inline-block; font-size: 30px;">
         ✓
       </div>
     </div>
-    <p style="color: #4CAF50;">If you did not request this, please ignore this email.</p>
-    <p>Best ,</p>
-    <p>Your Team</p>
+    <p>You can now log in with your new password. If you did not make this change, please contact our support team immediately.</p>
+    <div style="margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px;">
+      <p>Best regards,</p>
+      <p>Quantum Job Tracker Team</p>
+    </div>
   </div>
 `;
-
-
-
-

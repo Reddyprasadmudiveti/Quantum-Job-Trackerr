@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
+import { LuLoader } from "react-icons/lu";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('')
@@ -14,6 +16,7 @@ const ForgotPassword = () => {
     
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
       setError('Please enter a valid email address')
+      toast.error('Please enter a valid email address')
       return
     }
 
@@ -22,6 +25,7 @@ const ForgotPassword = () => {
     setMessage('')
     
     try {
+      toast.loading('Sending password reset link...')
       const response = await axios.post(
         'http://localhost:3000/api/auth/forgot-password',
         { email },
@@ -33,15 +37,15 @@ const ForgotPassword = () => {
         }
       )
 
-      // Axios automatically throws errors for non-2xx responses
-      // so if we get here, it means the request was successful
       const data = response.data
+      const successMessage = data.message || `Password reset link has been sent to your email`
       
-      setMessage(data.message || 'Password reset link has been sent to your email')
+      setMessage(successMessage)
+      toast.success("Email Sent")
       setSubmitted(true)
     } catch (error) {
-      // Extract error message from axios error response
       const errorMessage = error.response?.data?.message || error.message || 'An error occurred. Please try again.'
+      toast.error(errorMessage)
       setError(errorMessage)
     } finally {
       setIsLoading(false)
@@ -50,6 +54,30 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen px-6 py-12 bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        toastOptions={{
+          duration: 5000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+          success: {
+            duration: 3000,
+            theme: {
+              primary: '#4aed88',
+            },
+          },
+          error: {
+            duration: 3000,
+            theme: {
+              primary: '#ff4b4b',
+            },
+          },
+        }}
+      />
       <div className="w-full max-w-md">
         {/* Card */}
         <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300">
@@ -105,10 +133,7 @@ const ForgotPassword = () => {
               >
                 {isLoading ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <LuLoader className="animate-spin -ml-1 mr-3 h-5 w-5 text-pink-500" />
                     Processing...
                   </>
                 ) : 'Send Reset Link'}

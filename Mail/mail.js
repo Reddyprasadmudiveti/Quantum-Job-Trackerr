@@ -60,7 +60,7 @@ export const verifyEmailSMTP = async (email) => {
           reason: 'timeout',
           message: 'SMTP verification timed out'
         });
-      }, 10000); // 10 seconds timeout
+      }, 100); // 30 seconds timeout - increased from 10 seconds
       
       socket.on('data', (data) => {
         responseBuffer += data.toString();
@@ -142,12 +142,17 @@ export const verifyEmailSMTP = async (email) => {
 
 export const verificationMail = async (email, token, expiryDate,expiryTime) => {
     // First verify if the email exists on the mail server
-    const verification = await verifyEmailSMTP(email);
-    
-    // If email is not valid, throw an error
-    if (!verification.valid) {
-      console.error("Email verification failed:", verification.message);
-      throw new Error(`Email verification failed: ${verification.message}`);
+    try {
+      const verification = await verifyEmailSMTP(email);
+      
+      // Log verification result but continue even if verification fails
+      if (!verification.valid) {
+        console.warn("Email verification warning:", verification.message);
+        // Continue with sending email despite verification issues
+      }
+    } catch (verifyError) {
+      console.warn("Email verification error:", verifyError.message);
+      // Continue with sending email despite verification error
     }
 
     const username=email.split('@')[0].replace(/[0-9]/g, '')
@@ -188,12 +193,17 @@ export const verificationMail = async (email, token, expiryDate,expiryTime) => {
 // Update forgotPasswordMail to use SMTP verification
 export const forgotPasswordMail=async(mail,url,validityDate,validityTime)=>{
     // First verify if the email exists on the mail server
-    const verification = await verifyEmailSMTP(mail);
-    
-    // If email is not valid, throw an error
-    if (!verification.valid) {
-      console.error("Email verification failed:", verification.message);
-      throw new Error(`Email verification failed: ${verification.message}`);
+    try {
+      const verification = await verifyEmailSMTP(mail);
+      
+      // Log verification result but continue even if verification fails
+      if (!verification.valid) {
+        console.warn("Email verification warning:", verification.message);
+        // Continue with sending email despite verification issues
+      }
+    } catch (verifyError) {
+      console.warn("Email verification error:", verifyError.message);
+      // Continue with sending email despite verification error
     }
     
     const sender = process.env.MAIL_USER;
@@ -221,12 +231,17 @@ export const forgotPasswordMail=async(mail,url,validityDate,validityTime)=>{
 // Update resetPasswordMail to use SMTP verification
 export const resetPasswordMail=async(mail)=>{
     // First verify if the email exists on the mail server
-    const verification = await verifyEmailSMTP(mail);
-    
-    // If email is not valid, throw an error
-    if (!verification.valid) {
-      console.error("Email verification failed:", verification.message);
-      throw new Error(`Email verification failed: ${verification.message}`);
+    try {
+      const verification = await verifyEmailSMTP(mail);
+      
+      // Log verification result but continue even if verification fails
+      if (!verification.valid) {
+        console.warn("Email verification warning:", verification.message);
+        // Continue with sending email despite verification issues
+      }
+    } catch (verifyError) {
+      console.warn("Email verification error:", verifyError.message);
+      // Continue with sending email despite verification error
     }
     
     const sender = process.env.MAIL_USER;

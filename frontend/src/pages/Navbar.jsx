@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import UserProfile from '../components/UserProfile'
+import {toast}from"react-hot-toast";
 
 const Navbar = () => {
     const { isAuthenticated, loading } = useAuth();
@@ -29,7 +30,7 @@ const Navbar = () => {
                     <div className='text-2xl font-bold text-white drop-shadow-lg'>Dravidian University</div>
                 </div>
                 <div className='flex gap-8 items-center'>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/"}>🏠 Home</Link>
+                    <Link onClick={()=>toast.success("Home clicked")} className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/"}>🏠 Home</Link>
                     <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/jobs"}>💼 Jobs</Link>
                     <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/courses"}>📚 Courses</Link>
 
