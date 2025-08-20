@@ -7,76 +7,6 @@ import { forgotPasswordMail, resetPasswordMail, verificationMail } from "../Mail
 import { setCookiesAndToken } from "../middleware/jwtAuth.js";
 
 dotenv.config()
-
-export const updateProfile = async (req, res) => {
-  const { firstName, lastName } = req.body;
-  try {
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    
-    // Update fields if provided
-    if (firstName) {
-      user.firstName = firstName;
-    }
-    
-    if (lastName) {
-      user.lastName = lastName;
-    }
-    
-    // Handle file upload
-    if (req.file) {
-      // Create relative path to the uploaded file
-      const profileImagePath = `/uploads/profiles/${req.file.filename}`;
-      user.profilePicture = profileImagePath;
-    }
-    
-    await user.save();
-    
-    return res.status(200).json({
-      message: "Profile updated successfully",
-      user: { 
-        ...user._doc, 
-        password: undefined
-      }
-    });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-export const updatePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  try {
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    
-    if (!currentPassword || !newPassword) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-    
-    // Verify current password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: "Current password is incorrect" });
-    }
-    
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    
-    await user.save();
-    
-    return res.status(200).json({ message: "Password updated successfully" });
-  } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
-};
 export const Signup = async (req, res) => {
   const { userName, email, password } = req.body;
   console.log("userName", userName, "email", email, "password", password);
@@ -325,3 +255,41 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const updatePassword=async(req,res)=>{
+  const {password}=req.body
+  try {
+    const exist=await User.findById(req.user._id)
+    if(!exist){
+      return res.status(400).json({message:"User Not Found"})
+    }
+    if(!password){
+      return res.status(400).json({message:"Password is required"})
+    }
+    const encode=await bcrypt.hash(password,10)
+    exist.password=encode
+    await exist.save()
+    return res.status(200).json({message:"Password Updated Successfully"})
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+export const updateProfile=async(req,res)=>{
+  const {profileImage}=req.file
+  try {
+    const exist=await User.findById(req.user._id)
+    if(!exist){
+      return res.status(400).json({message:"User Not Found"})
+    }
+    if(!profileImage){
+      return res.status(400).json({message:"Profile Image is required"})
+    }
+    exist.profilePicture=profileImage.filename
+    await exist.save()
+    return res.status(200).json({message:"Profile Updated Successfully"})
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+}

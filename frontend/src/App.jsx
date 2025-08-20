@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from "react-router-dom"
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { Toaster } from 'react-hot-toast'
 import HomePage from './pages/HomePage'
 import JobsPage from './pages/JobsPage'
 import FooterPage from './pages/FooterPage'
@@ -11,15 +12,43 @@ import AuthSuccess from './pages/Authentication/AuthSuccess'
 import ForgotPassword from './pages/Authentication/ForgotPassword'
 import ResetPassword from './pages/Authentication/ResetPassword'
 import EmailVerification from './pages/Authentication/EmailVerification'
-import UserProfileSettings from './pages/User/UserProfileSettings'
 import Courses from './pages/Courses'
 import PageNotFound from './pages/404_Page/PageNotFound'
+import ToastExample from './components/ToastExample'
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth()
   
   return (
     <div className='min-h-screen w-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 relative overflow-hidden'>
+      {/* Toast notifications */}
+      <Toaster 
+        position="top-center" 
+        reverseOrder={false}
+        gutter={8}
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: 'rgba(0, 0, 0, 0.8)',
+            color: '#fff',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '8px',
+          },
+          success: {
+            iconTheme: {
+              primary: '#10b981',
+              secondary: '#fff',
+            },
+          },
+          error: {
+            iconTheme: {
+              primary: '#ef4444',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
 
       {/* Main content with top padding to account for floating navbar */}
       <Navbar className="select-none" />
@@ -31,10 +60,10 @@ const AppRoutes = () => {
           <Route path="/auth/success" element={<AuthSuccess />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/courses" element={isAuthenticated ? <Courses /> : <Login />} />
-          <Route path='/profile/settings' element={isAuthenticated ? <UserProfileSettings /> : <Login />} />
+          <Route path='/courses' element={isAuthenticated ? <Courses /> : <Login />} />
           <Route path='/' element={<HomePage />} />
           <Route path='/jobs' element={isAuthenticated ? <JobsPage /> : <Login />} />
+          <Route path='/toast-example' element={<ToastExample />} />
           <Route path='/*' element={<PageNotFound />} />
         </Routes>
       </div>
@@ -53,5 +82,3 @@ const App = () => {
 }
 
 export default App
-
-

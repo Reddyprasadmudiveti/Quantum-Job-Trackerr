@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AuthSuccess = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
+  const location = useLocation();
 
   useEffect(() => {
+    // Handle Google OAuth login
     const token = searchParams.get('token');
     const userParam = searchParams.get('user');
 
+    // Handle manual login - data passed through location state
+    const manualLoginData = location.state?.loginData;
+
     if (token && userParam) {
+      // Google OAuth login flow
       try {
         const userData = JSON.parse(decodeURIComponent(userParam));
         login(userData, token);
-        
-        // Redirect to jobs page
         setTimeout(() => {
           navigate('/jobs', { replace: true });
         }, 2000);
@@ -24,10 +28,17 @@ const AuthSuccess = () => {
         console.error('Error parsing user data:', error);
         navigate('/login', { replace: true });
       }
+    } else if (manualLoginData) {
+      // Manual login flow
+      const { userData, token } = manualLoginData;
+      login(userData, token);
+      setTimeout(() => {
+        navigate('/jobs', { replace: true });
+      }, 2000);
     } else {
       navigate('/login', { replace: true });
     }
-  }, [searchParams, login, navigate]);
+  }, [searchParams, login, navigate, location]);
 
   return (
     <div className='min-h-screen w-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 relative overflow-hidden flex items-center justify-center'>
@@ -48,7 +59,7 @@ const AuthSuccess = () => {
             Authentication Successful!
           </h1>
           <p className='text-white/80 text-lg mb-6'>
-            You have been successfully logged in with Google.
+            You have been successfully logged in.
           </p>
           <div className='flex items-center justify-center'>
             <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-white mr-3'></div>

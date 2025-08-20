@@ -68,11 +68,18 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
+      setLoading(true);
+
+      // Clear local storage
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
       await fetch('http://localhost:3000/auth/logout', {
         method: 'POST',
         credentials: 'include',
       });
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error('Logout error:', error);
     }
 
@@ -85,6 +92,7 @@ export const AuthProvider = ({ children }) => {
   const googleLogin = useCallback(async () => {
     try {
       // Check if Google OAuth is configured
+      setLoading(true);
       const response = await fetch('http://localhost:3000/auth/status');
       const status = await response.json();
 
@@ -94,6 +102,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       window.location.href = 'http://localhost:3000/auth/google';
+
     } catch (error) {
       console.error('Error checking OAuth status:', error);
       // Try anyway in case server is not responding

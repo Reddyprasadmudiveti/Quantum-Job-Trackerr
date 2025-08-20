@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import axios from "axios"
+import { showError, showSuccess } from '../utils/toast';
 
 const UserProfile = () => {
-  const { user, logout } = useAuth();
+  const { user, logout,loading } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -34,8 +34,10 @@ const UserProfile = () => {
       
       if (!response.ok) {
         console.error('Logout failed on server');
+        showError('Logout failed on server');
       } else {
         console.log("Logged out successfully");
+        showSuccess('Logged out successfully');
       }
       
       // Always logout on client side even if server request fails
@@ -86,7 +88,7 @@ const UserProfile = () => {
             <button
               onClick={() => {
                 setShowDropdown(false);
-                window.location.href = '/profile/settings';
+                // Navigate to profile page
               }}
               className="w-full text-left px-4 py-2 text-white hover:bg-white/10 rounded-xl transition-colors duration-200"
             >
@@ -118,7 +120,14 @@ const UserProfile = () => {
               }}
               className="w-full text-left px-4 py-2 text-red-500 pointer hover:bg-red-500/20 hover:text-red-200 rounded-xl transition-colors duration-200"
             >
-              🚪 Logout
+              {loading ? (
+                <div className='animate-spin rounded-full h-8 w-8 border-b-2 border-white mr-3'></div>
+              ) : (
+                <>
+                  <span className="mr-2">🚪</span>
+                  Logout
+                </>
+              )}
             </button>
           </div>
         </div>

@@ -30,9 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Serve static files from uploads directory
-app.use('/uploads', express.static('uploads'));
-
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-session-secret',
