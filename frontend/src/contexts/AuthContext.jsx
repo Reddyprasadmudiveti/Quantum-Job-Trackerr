@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import  { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const AuthContext = createContext();
 
@@ -70,28 +70,50 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      // Clear local storage
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
+      // Clear session on server
       await fetch('http://localhost:3000/auth/logout', {
         method: 'POST',
-        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include' // Important for sending cookies
       });
+      
+      // Clear client state
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      
+      // Clear cookies by setting expiration in the past
+      document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.trim().split('=');
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      });
+      
       setLoading(false);
     } catch (error) {
-      setLoading(false);
       console.error('Logout error:', error);
+      
+      // Even if server logout fails, clear client state
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      
+      // Clear cookies by setting expiration in the past
+      document.cookie.split(';').forEach(cookie => {
+        const [name] = cookie.trim().split('=');
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      });
+      
+      setLoading(false);
     }
-
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
   }, []);
 
   const googleLogin = useCallback(async () => {
     try {
-      // Check if Google OAuth is configured
       setLoading(true);
       const response = await fetch('http://localhost:3000/auth/status');
       const status = await response.json();

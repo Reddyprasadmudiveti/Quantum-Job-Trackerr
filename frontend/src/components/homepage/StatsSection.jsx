@@ -6,20 +6,20 @@ const StatsSection = () => {
       <div className='max-w-6xl mx-auto'>
         <div className='grid md:grid-cols-4 gap-8 text-center'>
           <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-            <div className='text-4xl font-bold text-white mb-2'>1,000+</div>
-            <div className='text-purple-300'>Students</div>
+            <div className='text-4xl font-bold text-white mb-2'>10,000+</div>
+            <div className='text-purple-300'>Active Users</div>
           </div>
           <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-            <div className='text-4xl font-bold text-white mb-2'>200+</div>
-            <div className='text-purple-300'>Faculty Members</div>
+            <div className='text-4xl font-bold text-white mb-2'>500+</div>
+            <div className='text-purple-300'>Quantum Companies</div>
           </div>
           <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-            <div className='text-4xl font-bold text-white mb-2'>95%</div>
-            <div className='text-purple-300'>Placement Rate</div>
+            <div className='text-4xl font-bold text-white mb-2'>87%</div>
+            <div className='text-purple-300'>Success Rate</div>
           </div>
           <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-            <div className='text-4xl font-bold text-white mb-2'>28+</div>
-            <div className='text-purple-300'>Years of Excellence</div>
+            <div className='text-4xl font-bold text-white mb-2'>24/7</div>
+            <div className='text-purple-300'>Support Available</div>
           </div>
         </div>
       </div>

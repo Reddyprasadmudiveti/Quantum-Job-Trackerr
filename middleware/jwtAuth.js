@@ -15,6 +15,6 @@ export const setCookiesAndToken = (res, payload, options = {}) => {
     ...options.cookieOptions
   };
 
-  res.setHeader('Set-Cookie', cookie.serialize('token', token, cookieOptions));
+  res.setHeader('Set-Cookie', cookie.serialize('auth', token, cookieOptions));
   return token;
 };

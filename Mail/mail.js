@@ -1,10 +1,44 @@
 import { transporter } from "./mail.config.js";
-import { resetPasswordSucessTemplate, resetPasswordTemplate, verificationCodeTemplate } from "./mail.templeate.js";
+import { courseEnrollmentTemplate, resetPasswordSucessTemplate, resetPasswordTemplate, verificationCodeTemplate } from "./mail.templeate.js";
 import dotenv from "dotenv";
 import dns from 'dns';
 import net from 'net';
 
 dotenv.config();
+
+// Course enrollment email function
+export const courseEnrollmentMail = async (userEmail, userName, courseDetails) => {
+  try {
+    const { title, instructor, duration, level, courseUrl } = courseDetails;
+    
+    let html = courseEnrollmentTemplate
+      .replace('{{ userName }}', userName)
+      .replace('{{ courseTitle }}', title)
+      .replace('{{ instructor }}', instructor)
+      .replace('{{ duration }}', `${duration} hours`)
+      .replace('{{ level }}', level)
+      .replace('{{ courseUrl }}', courseUrl || '#');
+    
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: `Course Enrollment: ${title}`,
+      html: html
+    };
+    
+    const info = await transporter.sendMail(mailOptions);
+    return {
+      success: true,
+      messageId: info.messageId
+    };
+  } catch (error) {
+    console.error('Error sending course enrollment email:', error);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+};
 
 // New function to verify email existence on SMTP server
 export const verifyEmailSMTP = async (email) => {

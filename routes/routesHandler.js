@@ -1,6 +1,6 @@
 import express from "express";
-import { jobs } from "../pages/jobsPage.js";
 import { authUser, checkEmailAvailability, forgotPassword, logout, resetPassword, Signin, Signup, updatePassword, updateProfile, verification } from "../pages/authentication.js";
+import { getJobs } from "../pages/jobsPage.js";
 import {protectedRoute}from "../middleware/middleware.js"
 import upload from "../middleware/uploadMiddleware.js";
 
@@ -14,7 +14,7 @@ route.post("/forgot-password",forgotPassword)//url looks with /forgot-password/:
 route.post("/reset-password/:token",resetPassword)
 route.post("/check-email", checkEmailAvailability)
 route.post("/check-auth",protectedRoute,authUser)
-route.get("/jobs", jobs)
+route.get("/jobs", getJobs)
 
 // User profile routes
 route.get("/user/profile", protectedRoute, authUser)

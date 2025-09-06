@@ -126,52 +126,52 @@ const HomePage = () => {
 
   const faqs = [
     {
-      question: "How do I apply for jobs through the portal?",
-      answer: "Simply create an account, complete your profile, and browse through our extensive job listings. You can apply directly through the platform with just one click."
+      question: "What is Quantum Track?",
+      answer: "Quantum Job Tracker is a comprehensive platform designed to help you manage your job applications, track your progress, and organize your quantum computing career opportunities in one place."
     },
     {
-      question: "What types of jobs are available?",
-      answer: "We offer opportunities across various industries including technology, healthcare, finance, education, and more. From entry-level positions to senior roles, there's something for everyone."
+      question: "How do I track my job applications?",
+      answer: "Simply create an account, add your job applications, and use our intuitive dashboard to monitor status, deadlines, and follow-ups. You can categorize applications by status, company, and priority."
     },
     {
-      question: "Is the job portal free to use?",
-      answer: "Yes, our job portal is completely free for job seekers. You can create profiles, search jobs, and apply without any charges."
+      question: "What types of jobs can I track?",
+      answer: "Our platform specializes in quantum computing careers, but you can track any job application across various industries including technology, research, academia, and quantum-focused companies."
     },
     {
-      question: "How often are new jobs posted?",
-      answer: "New job opportunities are posted daily. We recommend checking the portal regularly and setting up job alerts to stay updated with the latest openings."
+      question: "Is Quantum Job Tracker free to use?",
+      answer: "Yes, our core tracking features are completely free. Premium features with advanced analytics and unlimited application tracking are available through subscription plans."
     },
     {
-      question: "Do you provide career guidance and support?",
-      answer: "Absolutely! We offer comprehensive career guidance, resume building assistance, interview preparation, and ongoing support throughout your job search journey."
+      question: "How does the RSS news feed work?",
+      answer: "Our integrated RSS feed aggregates the latest news from quantum computing sources, research publications, and industry updates to keep you informed about developments relevant to your career."
     },
     {
-      question: "Can I edit my profile after creating it?",
-      answer: "Yes, you can update and edit your profile at any time. We encourage keeping your profile current with your latest skills, experience, and achievements to attract better opportunities."
+      question: "Can I set reminders for application deadlines?",
+      answer: "Yes, you can set custom reminders for application deadlines, interview dates, and follow-ups. Notifications can be received via email or in-app alerts based on your preferences."
     },
     {
-      question: "How do I get notified about new job openings?",
-      answer: "You can set up personalized job alerts based on your preferences such as location, industry, salary range, and job type. You'll receive email notifications when matching jobs are posted."
+      question: "How do I organize multiple job applications?",
+      answer: "Our kanban-style board lets you visualize your application pipeline. Drag and drop applications between status columns (Applied, Interview, Offer, Rejected) to maintain a clear overview of your job search progress."
     },
     {
-      question: "What should I include in my profile to stand out?",
-      answer: "Include a professional photo, detailed work experience, relevant skills, educational background, certifications, and a compelling summary. Also, add portfolio links or project examples if applicable."
+      question: "What information should I track for each application?",
+      answer: "We recommend tracking company name, position, application date, contact details, application materials submitted, interview dates, salary information, and any notes from interactions with recruiters."
     },
     {
-      question: "How long does the application process typically take?",
-      answer: "The timeline varies by employer, but most companies respond within 1-2 weeks. Some may have multiple interview rounds which can extend the process to 3-4 weeks."
+      question: "Can I generate reports on my job search?",
+      answer: "Yes, our analytics dashboard provides insights into your application success rate, interview conversion rate, and overall job search metrics to help you optimize your strategy."
     },
     {
-      question: "Can I apply for multiple jobs at the same time?",
-      answer: "Yes, you can apply for as many positions as you'd like. We recommend tailoring your application for each role to increase your chances of success."
+      question: "Is my data secure on the platform?",
+      answer: "Absolutely. We employ industry-standard encryption and security practices to ensure your personal information and job application data remain private and protected."
     },
     {
-      question: "Do you offer internship opportunities?",
-      answer: "Yes, we have a dedicated section for internships and entry-level positions. These are great opportunities for students and recent graduates to gain valuable experience."
+      question: "Can I access Quantum Job Tracker on mobile devices?",
+      answer: "Yes, our platform is fully responsive and works seamlessly across desktop, tablet, and mobile devices, allowing you to track your job search progress anywhere, anytime."
     },
     {
-      question: "Is Dravidian University Good?",
-      answer: "Yes, Dravidian University is an excellent institution known for its academic excellence, experienced faculty, and strong industry connections. With a 95% placement rate and 28+ years of educational excellence, we provide world-class education and comprehensive career support to help students achieve their goals."
+      question: "How can I get support if I have questions?",
+      answer: "Our dedicated support team is available via chat and email. We also offer comprehensive documentation, video tutorials, and a community forum where users can share tips and best practices."
     }
   ]
 

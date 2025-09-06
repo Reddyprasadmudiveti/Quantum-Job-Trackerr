@@ -23,7 +23,7 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback', (req, res, next) => {
   if (!isGoogleConfigured) {
     console.error('Google OAuth callback called but OAuth is not configured');
-    return res.redirect('http://localhost:5173/signin?error=oauth_not_configured');
+    return res.redirect('http://localhost:3000/signin?error=oauth_not_configured');
   }
 
   passport.authenticate('google', { failureRedirect: '/signin' }, (err, user, info) => {
@@ -77,11 +77,37 @@ router.get('/google/callback', (req, res, next) => {
 
 // Logout route
 router.post('/logout', (req, res) => {
+  // Get token from authorization header
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  
+  // Clear session
   req.logout((err) => {
     if (err) {
+      console.error('Logout error:', err);
       return res.status(500).json({ error: 'Logout failed' });
     }
-    res.json({ message: 'Logged out successfully' });
+    
+    // Destroy session
+    req.session.destroy((sessionErr) => {
+      if (sessionErr) {
+        console.error('Session destruction error:', sessionErr);
+      }
+      
+      // Clear cookies - use more specific options to ensure proper clearing
+      res.clearCookie('connect.sid', {
+        path: '/',
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax'
+      });
+      
+      // Clear any other potential cookies
+      res.clearCookie('authToken', { path: '/' });
+      res.clearCookie('jwt', { path: '/' });
+      
+      res.json({ message: 'Logged out successfully' });
+    });
   });
 });
 
@@ -93,11 +119,22 @@ router.get('/user', (req, res) => {
       email: req.user.email,
       firstName: req.user.firstName,
       lastName: req.user.lastName,
-      profilePicture: req.user.profilePicture
+      profilePicture: req.user.profilePicture,
+      role: req.user.role || 'user'
     });
   } else {
     res.status(401).json({ error: 'Not authenticated' });
   }
+});
+
+// Check if user is admin
+router.get('/check-admin', (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  
+  const isAdmin = req.user.role === 'admin';
+  res.json({ isAdmin });
 });
 
 // Verify JWT token

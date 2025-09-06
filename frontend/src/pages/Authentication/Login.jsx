@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../../contexts/AuthContext'
+import toast from 'react-hot-toast'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ const Login = () => {
       // Axios automatically throws errors for non-2xx responses
       // so if we get here, it means the request was successful
       const data = response.data
+      toast.success('Login successful')
       console.log('Login successful:', data)
       
       // Use the login function from AuthContext
@@ -57,6 +59,7 @@ const Login = () => {
       navigate('/jobs')
       
     } catch (error) {
+      toast.error('Login error')
       console.error('Login error:', error)
 
       if (error.response) {

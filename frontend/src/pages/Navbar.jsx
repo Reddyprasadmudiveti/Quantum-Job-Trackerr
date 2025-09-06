@@ -2,10 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import UserProfile from '../components/UserProfile'
-import {toast}from"react-hot-toast";
 
 const Navbar = () => {
-    const { isAuthenticated, loading } = useAuth();
+    const { isAuthenticated, isAdmin, loading } = useAuth();
 
     return (
         <div className='fixed top-0 left-0 right-0 z-50'>
@@ -27,18 +26,49 @@ const Navbar = () => {
                         />
                         <div className='absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-20 animate-ping'></div>
                     </div>
-                    <div className='text-2xl font-bold text-white drop-shadow-lg'>Dravidian University</div>
+                    <div className='text-2xl font-bold relative group'>
+                        <span className='absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-0 transition-opacity duration-1000'></span>
+                        <span className='relative bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-gradient-x'>QUANTUM TRACK</span>
+                        <span className='text-xl ml-2 border-2 px-2 text-gray-400 font-bold relative group'>Beta</span>
+                        <style jsx>{`
+                            @keyframes gradient-x {
+                                0% { background-position: 0% 50%; }
+                                50% { background-position: 100% 50%; }
+                                100% { background-position: 0% 50%; }
+                            }
+                            .animate-gradient-x {
+                                animation: gradient-x 3s ease infinite;
+                                background-size: 200% auto;
+                            }
+                        `}</style>
+                    </div>
                 </div>
-                <div className='flex gap-8 items-center'>
-                    <Link onClick={()=>toast.success("Home clicked")} className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/"}>🏠 Home</Link>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/jobs"}>💼 Jobs</Link>
-                    <Link className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-blue-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto" to={"/courses"}>📚 Courses</Link>
-
+                <div className='flex gap-6 items-center'>
+                    <NavLink to="/" icon="🏠" text="Home" />
+                    <NavLink to="/jobs" icon="💼" text="Jobs" />
+                    <NavLink to="/courses" icon="📚" text="Courses" />
+                    <NavLink to="/news" icon="📰" text="News" />
+                    {isAuthenticated && isAdmin && (
+                        <div className="relative group">
+                            <div className="group-hover:block hidden absolute top-full right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg overflow-hidden z-50">
+                                <NavLink to="/admin/courses" icon="📚" text="Manage Courses" />
+                                <NavLink to="/admin/users" icon="👥" text="Manage Users" />
+                            </div>
+                            <NavLink to="#" icon="⚙️" text="Admin" />
+                        </div>
+                    )}
+                    
                     {!loading && (
                         isAuthenticated ? (
                             <UserProfile />
                         ) : (
-                            <Link to={"/signin"} className="text-white font-semibold px-6 py-3 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 backdrop-blur-sm border border-white/20 hover:from-pink-400/40 hover:to-purple-400/40 transform hover:scale-105 transition-all duration-300 shadow-lg select-none pointer-events-auto">Login/Signup</Link>
+                            <Link 
+                                to="/signin"
+                                className="relative overflow-hidden text-white font-semibold px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transform hover:scale-105 transition-all duration-300 shadow-lg group"
+                            >
+                                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-600/50 to-purple-600/50 blur-lg group-hover:scale-150 transition-transform duration-500"></span>
+                                <span className="relative">Login/Signup</span>
+                            </Link>
                         )
                     )}
                 </div>
@@ -46,4 +76,20 @@ const Navbar = () => {
         </div>
     )
 }
+
+// New NavLink component for consistent styling
+const NavLink = ({ to, icon, text }) => (
+    <Link
+        to={to}
+        className="group relative overflow-hidden px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors duration-300"
+    >
+        <span className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+        <span className="relative flex items-center gap-2">
+            <span className="text-lg group-hover:scale-125 transition-transform duration-300">{icon}</span>
+            <span className="font-medium text-white group-hover:text-white/90">{text}</span>
+        </span>
+        <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+    </Link>
+)
+
 export default Navbar

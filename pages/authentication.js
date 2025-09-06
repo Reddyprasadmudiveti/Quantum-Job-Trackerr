@@ -1,4 +1,4 @@
-import User from "../database/jobSchema.js";
+import User from "../database/authSchema.js";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import dotenv from "dotenv";
@@ -112,8 +112,8 @@ export const Signin=async(req,res)=>{
         exist.lastLogin=Date.now()
         await exist.save()
 
-        await setCookiesAndToken(res, { userId: exist.id })
-        return res.status(200).json({message:"Login Successfully",user:{...exist._doc,password:undefined}})
+        const token = await setCookiesAndToken(res, { userId: exist.id })
+        return res.status(200).json({message:"Login Successfully", token, user:{...exist._doc,password:undefined}})
 
     } catch (error) {
         console.log(error.message);
@@ -245,9 +245,7 @@ export const logout = async (req, res) => {
   try {
     const cookie = req.cookies.auth;
     console.log("cookie from Logout", cookie);
-
-    localStorage.clear();
-    cookie.clear();
+    res.setHeader("clear-storage","cookie","sessionStorage","localStorage");
 
     return res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {

@@ -8,7 +8,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
         <h1 className='text-7xl font-bold text-white mb-6 drop-shadow-2xl transform hover:scale-105 transition-transform duration-500'>
           Welcome to
           <span className='block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse'>
-            Quantum Job Tracker
+            Quantum Track
           </span>
         </h1>
         <div className='absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl rounded-full'></div>
@@ -77,7 +77,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
       </div>
 
       <p className='text-xl text-white/90 mb-12 max-w-2xl leading-relaxed drop-shadow-lg'>
-        Discover endless opportunities and shape your future with our comprehensive job portal.
+       A Quantum-Inspired Job & Career Path Tracker that Predicts, Matches, and Secures Future Work Journeys.
       </p>
 
       <div className='flex gap-6'>

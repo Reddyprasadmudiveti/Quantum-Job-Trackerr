@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { showError, showSuccess } from '../utils/toast';
 
 const UserProfile = () => {
-  const { user, logout,loading } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -31,7 +30,7 @@ const UserProfile = () => {
           'Content-Type': 'application/json'
         }
       });
-      
+
       if (!response.ok) {
         console.error('Logout failed on server');
         showError('Logout failed on server');
@@ -39,7 +38,7 @@ const UserProfile = () => {
         console.log("Logged out successfully");
         showSuccess('Logged out successfully');
       }
-      
+
       // Always logout on client side even if server request fails
       logout();
       window.location.href = '/signin';
@@ -62,7 +61,7 @@ const UserProfile = () => {
           className="w-8 h-8 rounded-full"
         />
         <span className="hidden md:block">
-          {user.firstName} {user.lastName}
+          {user.firstName}
         </span>
         <span className="text-xs">▼</span>
       </button>

@@ -14,7 +14,10 @@ import ResetPassword from './pages/Authentication/ResetPassword'
 import EmailVerification from './pages/Authentication/EmailVerification'
 import Courses from './pages/Courses'
 import PageNotFound from './pages/404_Page/PageNotFound'
-import ToastExample from './components/ToastExample'
+import Course from './pages/Course'
+import Rss from './pages/news/rss'
+import NewsDetail from './pages/news/newsDetail'
+import AdminDashboard from './pages/Admin/AdminDashboard'
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth()
@@ -61,9 +64,12 @@ const AppRoutes = () => {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path='/courses' element={isAuthenticated ? <Courses /> : <Login />} />
+          <Route path='/course/:id' element={<Course />} />
           <Route path='/' element={<HomePage />} />
           <Route path='/jobs' element={isAuthenticated ? <JobsPage /> : <Login />} />
-          <Route path='/toast-example' element={<ToastExample />} />
+          <Route path='/admin' element={isAuthenticated ? <AdminDashboard /> : <Login />} />
+          <Route path='/news' element={<Rss />} />
+          <Route path='/news/:id' element={<NewsDetail />} />
           <Route path='/*' element={<PageNotFound />} />
         </Routes>
       </div>

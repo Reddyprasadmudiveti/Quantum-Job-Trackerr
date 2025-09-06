@@ -5,7 +5,7 @@ const FAQSection = ({ faqs, openFAQ, toggleFAQ }) => {
     <div className='relative z-10 py-20 px-6'>
       <div className='max-w-4xl mx-auto'>
         <h2 className='text-5xl font-bold text-white text-center mb-16 drop-shadow-2xl'>
-          Frequently Asked <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Questions</span>
+          Questions? We have <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Answers</span>
         </h2>
 
         <div className='space-y-6'>
