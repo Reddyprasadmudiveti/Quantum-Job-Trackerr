@@ -6,8 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:production": "NODE_ENV=production vite build",
+    "build:analyze": "vite build --config vite.config.analyze.js",
+    "build:verify": "npm run build && node scripts/verify-build.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "postbuild": "echo 'Frontend build completed successfully'",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:build": "npm run build && npm run preview --port 4173 &",
+    "validate": "npm run lint && npm run build:verify"
   },
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
@@ -29,6 +41,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
@@ -36,6 +52,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
-    "vite": "^7.1.2"
+    "jsdom": "^23.0.1",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "vite": "^7.1.2",
+    "vitest": "^1.0.4"
   }
 }

@@ -18,6 +18,7 @@ import Course from './pages/Course'
 import Rss from './pages/news/rss'
 import NewsDetail from './pages/news/newsDetail'
 import AdminDashboard from './pages/Admin/AdminDashboard'
+import ResumeBuilder from './pages/ResumeBuilder'
 
 const AppRoutes = () => {
   const { isAuthenticated } = useAuth()
@@ -68,6 +69,7 @@ const AppRoutes = () => {
           <Route path='/' element={<HomePage />} />
           <Route path='/jobs' element={isAuthenticated ? <JobsPage /> : <Login />} />
           <Route path='/admin' element={isAuthenticated ? <AdminDashboard /> : <Login />} />
+          <Route path='/resume-builder' element={isAuthenticated ? <ResumeBuilder /> : <Login />} />
           <Route path='/news' element={<Rss />} />
           <Route path='/news/:id' element={<NewsDetail />} />
           <Route path='/*' element={<PageNotFound />} />

@@ -1,4 +1,4 @@
-import  { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const AuthContext = createContext();
 
@@ -79,35 +79,35 @@ export const AuthProvider = ({ children }) => {
         },
         credentials: 'include' // Important for sending cookies
       });
-      
+
       // Clear client state
       setUser(null);
       setToken(null);
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-      
+
       // Clear cookies by setting expiration in the past
       document.cookie.split(';').forEach(cookie => {
         const [name] = cookie.trim().split('=');
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       });
-      
+
       setLoading(false);
     } catch (error) {
       console.error('Logout error:', error);
-      
+
       // Even if server logout fails, clear client state
       setUser(null);
       setToken(null);
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
-      
+
       // Clear cookies by setting expiration in the past
       document.cookie.split(';').forEach(cookie => {
         const [name] = cookie.trim().split('=');
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       });
-      
+
       setLoading(false);
     }
   }, []);

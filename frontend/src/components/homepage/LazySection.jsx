@@ -110,7 +110,7 @@ const LazySection = ({ children, threshold = 0.2 }) => {
         </div>
       )}
       
-      <style jsx>{`
+      <style>{`
         .section-container {
           position: relative;
           width: 100%;

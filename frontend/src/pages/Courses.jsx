@@ -101,43 +101,87 @@ const handleSaveCourse = (courseId) => {
       </div>
 
       {/* Filters Section */}
-      <div className='relative z-10 px-6 mb-12'>
+      <div className='relative z-10 px-6 mb-16'>
         <div className='max-w-4xl flex flex-col mx-auto'>
-          <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
+          <div className='bg-gradient-to-br from-white/10 to-purple-500/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-purple-500/10 transition-all duration-300'>
+            <h3 className='text-2xl font-bold text-white mb-6 flex items-center'>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Filter Courses</span>
+            </h3>
             <div className='grid md:grid-cols-2 gap-6'>
               {/* Category Filter */}
-              <div>
-                <label className='block text-white  font-semibold mb-3'>Course Category</label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300'
-                >
-                  {courseCategories.map(category => (
-                    <option key={category.value} value={category.value} className='bg-gray-800'>
-                      {category.label}
-                    </option>
-                  ))}
-                </select>
+              <div className='group'>
+                <label className='block text-white font-semibold mb-3 flex items-center'>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-400 group-hover:text-purple-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  Course Category
+                </label>
+                <div className='relative'>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 appearance-none shadow-inner'
+                  >
+                    {courseCategories.map(category => (
+                      <option key={category.value} value={category.value} className='bg-gray-800'>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white'>
+                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               {/* Level Filter */}
-              <div>
-                <label className='block text-white font-semibold mb-3'>Course Level</label>
-                <select
-                  value={selectedLevel}
-                  onChange={(e) => setSelectedLevel(e.target.value)}
-                  className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300'
-                >
-                  {courseLevels.map(level => (
-                    <option key={level.value} value={level.value} className='bg-gray-800'>
-                      {level.label}
-                    </option>
-                  ))}
-                </select>
+              <div className='group'>
+                <label className='block text-white font-semibold mb-3 flex items-center'>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-400 group-hover:text-purple-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                  Course Level
+                </label>
+                <div className='relative'>
+                  <select
+                    value={selectedLevel}
+                    onChange={(e) => setSelectedLevel(e.target.value)}
+                    className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 appearance-none shadow-inner'
+                  >
+                    {courseLevels.map(level => (
+                      <option key={level.value} value={level.value} className='bg-gray-800'>
+                        {level.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-white'>
+                    <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
-               <button className='w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-2xl text-white font-semibold shadow-lg transform hover:translate-y-[-2px] transition-all duration-300 flex items-center justify-center'><span className='text-sm'>Reset Filters</span></button>
+            
+            <div className='mt-8'>
+              <button 
+                onClick={() => {
+                  setSelectedCategory('all');
+                  setSelectedLevel('all');
+                }}
+                className='w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-2xl text-white font-semibold shadow-lg hover:shadow-purple-500/50 transform hover:translate-y-[-2px] transition-all duration-300 flex items-center justify-center'
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Reset Filters</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

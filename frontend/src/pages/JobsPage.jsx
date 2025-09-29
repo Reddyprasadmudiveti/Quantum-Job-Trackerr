@@ -58,7 +58,7 @@ const JobsPage = () => {
   const [initialLoading, setInitialLoading] = useState(true)
   const [error, setError] = useState(null)
   const [isSearching, setIsSearching] = useState(false)
-  
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
@@ -72,7 +72,7 @@ const JobsPage = () => {
         setLoading(true)
         setError(null)
       }
-      
+
       const params = {
         keyword: searchTerm,
         location: selectedLocation === 'all' ? '' : selectedLocation,
@@ -88,18 +88,18 @@ const JobsPage = () => {
         // Get jobs from MongoDB
         data = await ibmJobsApi.getAll(params)
       }
-      
+
       if (data.success && data.jobs && data.jobs.length > 0) {
         const formattedJobs = data.jobs.map(formatJobData)
         setIbmJobs(formattedJobs)
-        
+
         // Update pagination state
         if (data.pagination) {
           setCurrentPage(data.pagination.currentPage)
           setTotalPages(data.pagination.totalPages)
           setTotalJobs(data.pagination.totalJobs)
         }
-        
+
         setError(null)
         console.log(`Fetched ${formattedJobs.length} IBM jobs from MongoDB (Page ${page}/${data.pagination?.totalPages || 1})`)
         if (data.newJobsSaved) {
@@ -136,7 +136,7 @@ const JobsPage = () => {
         setLoading(true)
         setError(null)
       }
-      
+
       const params = {
         keyword: searchTerm,
         location: selectedLocation === 'all' ? '' : selectedLocation,
@@ -145,7 +145,7 @@ const JobsPage = () => {
       }
 
       const data = await quantumJobsApi.getAll(params)
-      
+
       if (data.jobs && data.jobs.length > 0) {
         const formattedJobs = data.jobs.map(formatJobData)
         setQuantumJobs(formattedJobs)
@@ -179,7 +179,7 @@ const JobsPage = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const params = {
         keyword: searchTerm || 'engineer',
         limit: 20
@@ -193,7 +193,7 @@ const JobsPage = () => {
         // Get India jobs from MongoDB
         data = await ibmJobsApi.getIndiaJobs(params)
       }
-      
+
       let jobs = []
       if (data.jobs && data.jobs.length > 0) {
         jobs = data.jobs.map(formatJobData)
@@ -235,7 +235,7 @@ const JobsPage = () => {
       ])
       setInitialLoading(false)
     }
-    
+
     loadInitialData()
   }, []) // Empty dependency array - only run once
 
@@ -261,7 +261,7 @@ const JobsPage = () => {
   // Debounced search effect
   useEffect(() => {
     if (initialLoading) return // Don't search during initial load
-    
+
     const timeoutId = setTimeout(() => {
       setIsSearching(true)
       setCurrentPage(1) // Reset to first page when searching
@@ -271,7 +271,7 @@ const JobsPage = () => {
         fetchQuantumJobs(true).finally(() => setIsSearching(false))
       }
     }, 500)
-    
+
     return () => clearTimeout(timeoutId)
   }, [searchTerm, selectedLocation, activeJobType, fetchIbmJobs, fetchQuantumJobs, initialLoading])
 
@@ -288,23 +288,23 @@ const JobsPage = () => {
   const isLoading = initialLoading || loading || isSearching
 
   return (
-    <div >
-      {/* Header Section */}
-      <div className='relative select-none z-10 text-center py-12 px-6'>
-        <h1 className='text-6xl font-bold text-white mb-4 drop-shadow-2xl'>
+    <div className="overflow-x-hidden">
+      {/* Header Section - Responsive */}
+      <div className='relative select-none z-10 text-center py-8 sm:py-12 responsive-px'>
+        <h1 className='text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 drop-shadow-2xl'>
           Find Your <span className='bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent'>Dream Job</span>
         </h1>
-        <p className='text-xl text-white/90 mb-8 max-w-2xl mx-auto'>
+        <p className='text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-2xl mx-auto'>
           Discover amazing career opportunities from top companies and kickstart your professional journey.
         </p>
-        
-        {/* Job Type Tabs */}
-        <div className="max-w-md mx-auto mb-8">
+
+        {/* Job Type Tabs - Responsive */}
+        <div className="max-w-sm sm:max-w-md mx-auto mb-6 sm:mb-8 px-4 sm:px-0">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-white/10 backdrop-blur-lg p-1">
               <Tab
                 className={({ selected }) =>
-                  `w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white transition-all duration-200
+                  `w-full rounded-lg py-2.5 text-xs sm:text-sm font-medium leading-5 text-white transition-all duration-200 touch-target
                   ${selected ? 'bg-gradient-to-r from-blue-500/70 to-purple-500/70 shadow' : 'hover:bg-white/10'}`
                 }
                 onClick={() => handleTabChange('ibm')}
@@ -313,7 +313,7 @@ const JobsPage = () => {
               </Tab>
               <Tab
                 className={({ selected }) =>
-                  `w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white transition-all duration-200
+                  `w-full rounded-lg py-2.5 text-xs sm:text-sm font-medium leading-5 text-white transition-all duration-200 touch-target
                   ${selected ? 'bg-gradient-to-r from-purple-500/70 to-pink-500/70 shadow' : 'hover:bg-white/10'}`
                 }
                 onClick={() => handleTabChange('quantum')}
@@ -325,23 +325,23 @@ const JobsPage = () => {
         </div>
       </div>
 
-      {/* Search and Filters */}
-      <div className='relative select-none z-10 scale-80 px-6 mb-12'>
-        <div className='max-w-6xl mx-auto'>
-          <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl'>
-            <div className='grid md:grid-cols-4 gap-6'>
+      {/* Search and Filters - Responsive */}
+      <div className='relative select-none z-10 responsive-px mb-8 sm:mb-12'>
+        <div className='responsive-container'>
+          <div className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6'>
               {/* Search Input */}
-              <div className='md:col-span-2 relative'>
+              <div className='sm:col-span-2 relative'>
                 <input
                   type="text"
                   placeholder="Search jobs, companies, or skills..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300'
+                  className='responsive-form-input bg-white/20 backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent'
                 />
                 {isSearching && (
-                  <div className='absolute right-4 top-1/2 transform -translate-y-1/2'>
-                    <div className='animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white/70'></div>
+                  <div className='absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2'>
+                    <div className='animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-t-2 border-b-2 border-white/70'></div>
                   </div>
                 )}
               </div>
@@ -351,7 +351,7 @@ const JobsPage = () => {
                 <select
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300'
+                  className='responsive-form-input bg-white/20 backdrop-blur-sm border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent'
                 >
                   <option value="all" className='bg-gray-800'>All Categories</option>
                   <option value="technology" className='bg-gray-800'>Technology</option>
@@ -367,7 +367,7 @@ const JobsPage = () => {
                 <select
                   value={selectedLocation}
                   onChange={(e) => setSelectedLocation(e.target.value)}
-                  className='w-full px-6 py-4 bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300'
+                  className='responsive-form-input bg-white/20 backdrop-blur-sm border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent'
                 >
                   <option value="all" className='bg-gray-800'>All Locations</option>
                   <option value="Bangalore" className='bg-gray-800'>Bangalore</option>
@@ -383,77 +383,91 @@ const JobsPage = () => {
         </div>
       </div>
 
-      {/* Jobs Grid */}
-      <div className='relative select-none z-10 px-6 pb-20'>
-        <div className='max-w-6xl mx-auto'>
-          <div className='flex justify-between items-center mb-8'>
-            <h2 className='text-3xl font-bold text-white'>
+      {/* Jobs Grid - Responsive */}
+      <div className='relative select-none z-10 responsive-px pb-12 sm:pb-20'>
+        <div className='responsive-container'>
+          <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 sm:mb-8'>
+            <h2 className='text-xl sm:text-2xl lg:text-3xl font-bold text-white'>
               {isLoading ? (
                 <span className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
-                  Loading Jobs...
+                  <div className="animate-spin rounded-full h-5 w-5 sm:h-6 sm:w-6 border-t-2 border-b-2 border-white"></div>
+                  <span className="hidden sm:inline">Loading Jobs...</span>
+                  <span className="sm:hidden">Loading...</span>
                 </span>
               ) : (
                 `${filteredJobs.length} Job${filteredJobs.length !== 1 ? 's' : ''} Found`
               )}
             </h2>
-            <div className='flex items-center gap-4'>
-              <div className='text-white/70'>
+            <div className='flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full sm:w-auto'>
+              <div className='text-white/70 text-sm sm:text-base mb-2 sm:mb-0'>
                 {!isLoading && activeJobType === 'ibm' && totalJobs > 0 && (
-                  `Page ${currentPage} of ${totalPages} (${totalJobs} total jobs)`
+                  <>
+                    <span className="hidden sm:inline">{`Page ${currentPage} of ${totalPages} (${totalJobs} total jobs)`}</span>
+                    <span className="sm:hidden">{`${currentPage}/${totalPages} (${totalJobs})`}</span>
+                  </>
                 )}
                 {!isLoading && activeJobType === 'quantum' && (
-                  `Showing ${filteredJobs.length} of ${quantumJobs.length} jobs`
+                  <>
+                    <span className="hidden sm:inline">{`Showing ${filteredJobs.length} of ${quantumJobs.length} jobs`}</span>
+                    <span className="sm:hidden">{`${filteredJobs.length}/${quantumJobs.length}`}</span>
+                  </>
                 )}
               </div>
-              {activeJobType === 'ibm' ? (
-                <>
-                  <button 
-                    onClick={() => fetchIbmJobs(false, true, currentPage)}
+              <div className='flex flex-wrap gap-2 sm:gap-4'>
+                {activeJobType === 'ibm' ? (
+                  <>
+                    <button
+                      onClick={() => fetchIbmJobs(false, true, currentPage)}
+                      disabled={isLoading}
+                      className='responsive-button bg-gradient-to-r from-green-500/30 to-blue-500/30 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-green-500/40 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm touch-target'
+                    >
+                      <span className="hidden sm:inline">{isLoading ? '🔄' : '🔄'} Refresh IBM Jobs</span>
+                      <span className="sm:hidden">🔄 Refresh</span>
+                    </button>
+                    <button
+                      onClick={fetchRealTimeJobs}
+                      disabled={isLoading}
+                      className='responsive-button bg-gradient-to-r from-red-500/30 to-orange-500/30 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-red-500/40 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm touch-target'
+                    >
+                      <span className="hidden sm:inline">🔴 Live Scrape</span>
+                      <span className="sm:hidden">🔴 Live</span>
+                    </button>
+                    <button
+                      onClick={() => fetchIBMIndiaJobs(false)}
+                      disabled={isLoading}
+                      className='responsive-button bg-gradient-to-r from-blue-600/30 to-indigo-600/30 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-blue-600/40 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm touch-target'
+                    >
+                      <span className="hidden sm:inline">🇮🇳 IBM India</span>
+                      <span className="sm:hidden">🇮🇳 India</span>
+                    </button>
+                    <button
+                      onClick={() => fetchIBMIndiaJobs(true)}
+                      disabled={isLoading}
+                      className='responsive-button bg-gradient-to-r from-orange-600/30 to-red-600/30 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-orange-600/40 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm touch-target'
+                    >
+                      <span className="hidden sm:inline">🔥 Scrape India</span>
+                      <span className="sm:hidden">🔥 Scrape</span>
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => fetchQuantumJobs(true)}
                     disabled={isLoading}
-                    className='bg-gradient-to-r from-green-500/30 to-blue-500/30 backdrop-blur-sm border border-white/30 text-white font-bold py-2 px-4 rounded-xl hover:bg-green-500/40 transition-all duration-300 disabled:opacity-50'
+                    className='responsive-button bg-gradient-to-r from-purple-500/30 to-pink-500/30 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-purple-500/40 transition-all duration-300 disabled:opacity-50 text-xs sm:text-sm touch-target'
                   >
-                    {isLoading ? '🔄' : '🔄'} Refresh IBM Jobs
+                    <span className="hidden sm:inline">🔬 Refresh Quantum Jobs</span>
+                    <span className="sm:hidden">🔬 Refresh</span>
                   </button>
-                  <button 
-                    onClick={fetchRealTimeJobs}
-                    disabled={isLoading}
-                    className='bg-gradient-to-r from-red-500/30 to-orange-500/30 backdrop-blur-sm border border-white/30 text-white font-bold py-2 px-4 rounded-xl hover:bg-red-500/40 transition-all duration-300 disabled:opacity-50'
-                  >
-                    🔴 Live Scrape
-                  </button>
-                  <button 
-                    onClick={() => fetchIBMIndiaJobs(false)}
-                    disabled={isLoading}
-                    className='bg-gradient-to-r from-blue-600/30 to-indigo-600/30 backdrop-blur-sm border border-white/30 text-white font-bold py-2 px-4 rounded-xl hover:bg-blue-600/40 transition-all duration-300 disabled:opacity-50'
-                  >
-                    🇮🇳 IBM India
-                  </button>
-                  <button 
-                    onClick={() => fetchIBMIndiaJobs(true)}
-                    disabled={isLoading}
-                    className='bg-gradient-to-r from-orange-600/30 to-red-600/30 backdrop-blur-sm border border-white/30 text-white font-bold py-2 px-4 rounded-xl hover:bg-orange-600/40 transition-all duration-300 disabled:opacity-50'
-                  >
-                    🔥 Scrape India
-                  </button>
-                </>
-              ) : (
-                <button 
-                  onClick={() => fetchQuantumJobs(true)}
-                  disabled={isLoading}
-                  className='bg-gradient-to-r from-purple-500/30 to-pink-500/30 backdrop-blur-sm border border-white/30 text-white font-bold py-2 px-4 rounded-xl hover:bg-purple-500/40 transition-all duration-300 disabled:opacity-50'
-                >
-                  🔬 Refresh Quantum Jobs
-                </button>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
           {isLoading && filteredJobs.length === 0 ? (
-            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
               {/* Skeleton loading cards */}
               {[...Array(6)].map((_, index) => (
-                <div key={index} className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl animate-pulse'>
+                <div key={index} className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl animate-pulse'>
                   <div className='flex justify-between items-start mb-4'>
                     <div className='flex-1'>
                       <div className='h-6 bg-white/20 rounded mb-2 w-3/4'></div>
@@ -476,27 +490,27 @@ const JobsPage = () => {
                     <div>
                       <div className='h-5 bg-white/20 rounded mb-1 w-20'></div>
                       <div className='h-3 bg-white/20 rounded w-16'></div>
+                      </div>
                     </div>
-                  </div>
                   <div className='flex gap-3'>
                     <div className='flex-1 h-12 bg-white/20 rounded-2xl'></div>
                     <div className='h-12 w-16 bg-white/20 rounded-2xl'></div>
                   </div>
-                </div>
+              </div>
               ))}
-            </div>
+        </div>
           ) : error && filteredJobs.length === 0 ? (
             <div className='text-center py-20'>
               <div className='text-6xl mb-4'>⚠️</div>
               <h3 className='text-3xl font-bold text-white mb-4'>Unable to Load Jobs</h3>
               <p className='text-white/70 text-lg mb-6'>{error}</p>
-              <button 
+              <button
                 onClick={() => activeJobType === 'ibm' ? fetchIbmJobs(false, true, 1) : fetchQuantumJobs(true)}
                 className='bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-8 rounded-2xl hover:shadow-lg hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300'
               >
                 Try Again
-              </button>
-            </div>
+          </button>
+      </div>
           ) : (
             <div className='relative'>
               {/* Show loading overlay when searching */}
@@ -508,62 +522,67 @@ const JobsPage = () => {
                   </div>
                 </div>
               )}
-              
-              <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
+
+              <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
                 {filteredJobs.map(job => (
-                <div key={job.id} className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 hover:bg-white/15'>
-                <div className='flex justify-between items-start mb-4'>
-                  <div className='flex-1'>
-                    <h3 className='text-2xl font-bold text-white mb-2'>{job.title}</h3>
-                    <p className='text-purple-300 text-lg mb-1'>{job.company || 'IBM'}</p>
-                    <div className='flex items-center gap-2 text-white/70 mb-2'>
-                      <span>📍</span>
-                      <span>{job.location || 'Remote'}</span>
-                    </div>
-                  </div>
-                  <div className='text-right'>
-                    <div className='bg-gradient-to-r from-blue-500/30 to-purple-500/30 px-3 py-1 rounded-full text-white text-sm mb-2'>
-                      {job.type || 'Full-time'}
-                    </div>
-                    <div className='text-white/70 text-sm'>{job.posted || 'Recent'}</div>
-                  </div>
-                </div>
+                  <div key={job.id} className='bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 hover:bg-white/15'>
+                    <div className='flex flex-col sm:flex-row justify-between items-start mb-4 gap-3 sm:gap-0'>
+                      <div className='flex-1'>
+                        <h3 className='text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2'>{job.title}</h3>
+                        <p className='text-purple-300 text-base sm:text-lg mb-1'>{job.company || 'IBM'}</p>
+                        <div className='flex items-center gap-2 text-white/70 mb-2 text-sm sm:text-base'>
+                          <span>📍</span>
+                          <span>{job.location || 'Remote'}</span>
+                            </div>
+                        </div>
+                      <div className='text-left sm:text-right w-full sm:w-auto'>
+                        <div className='bg-gradient-to-r from-blue-500/30 to-purple-500/30 px-3 py-1 rounded-full text-white text-xs sm:text-sm mb-2 inline-block'>
+                          {job.type || 'Full-time'}
+                              </div>
+                        <div className='text-white/70 text-xs sm:text-sm'>{job.posted || 'Recent'}</div>
+                            </div>
+                            </div>
 
-                <p className='text-white/80 mb-4 line-clamp-2'>{job.description || 'No description available'}</p>
+                    <p className='text-white/80 mb-4 line-clamp-2 text-sm sm:text-base'>{job.description || 'No description available'}</p>
 
-                <div className='mb-4'>
-                  <div className='flex flex-wrap gap-2'>
-                    {(job.skills && Array.isArray(job.skills) ? job.skills : []).map((skill, index) => (
-                      <span key={index} className='bg-gradient-to-r from-pink-500/30 to-purple-500/30 px-3 py-1 rounded-full text-white text-sm'>
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                    <div className='mb-4'>
+                      <div className='flex flex-wrap gap-2'>
+                        {(job.skills && Array.isArray(job.skills) ? job.skills : []).slice(0, 3).map((skill, index) => (
+                          <span key={index} className='bg-gradient-to-r from-pink-500/30 to-purple-500/30 px-2 sm:px-3 py-1 rounded-full text-white text-xs sm:text-sm'>
+                            {skill}
+                          </span>
+                        ))}
+                        {job.skills && job.skills.length > 3 && (
+                          <span className='bg-gradient-to-r from-gray-500/30 to-gray-600/30 px-2 sm:px-3 py-1 rounded-full text-white text-xs sm:text-sm'>
+                            +{job.skills.length - 3} more
+                          </span>
+                        )}
+                                  </div>
+                      </div>
 
-                <div className='flex justify-between items-center mb-6'>
-                  <div>
-                    <div className='text-white font-bold text-lg'>{job.salary || 'Competitive'}</div>
-                    <div className='text-white/70 text-sm'>{job.experience || 'Not specified'}</div>
-                  </div>
-                </div>
+                    <div className='flex justify-between items-center mb-4 sm:mb-6'>
+                      <div>
+                        <div className='text-white font-bold text-base sm:text-lg'>{job.salary || 'Competitive'}</div>
+                        <div className='text-white/70 text-xs sm:text-sm'>{job.experience || 'Not specified'}</div>
+                              </div>
+                            </div>
 
-                <div className='flex gap-3'>
-                  <a 
-                    href={job.url || '#'} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className='flex-1 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-6 rounded-2xl hover:shadow-lg hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300 text-center'
-                  >
-                    Apply Now
-                  </a>
-                  <button className='bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold py-3 px-6 rounded-2xl hover:bg-white/30 transition-all duration-300'>
-                    Save
-                  </button>
-                </div>
-                </div>
+                    <div className='flex flex-col sm:flex-row gap-3'>
+                      <a
+                        href={job.url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className='flex-1 responsive-button bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold hover:shadow-lg hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300 text-center touch-target'
+                      >
+                        Apply Now
+                      </a>
+                      <button className='responsive-button bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold hover:bg-white/30 transition-all duration-300 touch-target sm:w-auto'>
+                        Save
+                      </button>
+                              </div>
+                      </div>
                 ))}
-              </div>
+                </div>
             </div>
           )}
 
@@ -608,16 +627,15 @@ const JobsPage = () => {
                     {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                       const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i;
                       if (pageNum > totalPages) return null;
-                      
+
                       return (
                         <button
                           key={pageNum}
                           onClick={() => handlePageChange(pageNum)}
-                          className={`w-10 h-10 rounded-lg backdrop-blur-sm border font-medium transition-all duration-300 ${
-                            pageNum === currentPage
+                          className={`w-10 h-10 rounded-lg backdrop-blur-sm border font-medium transition-all duration-300 ${pageNum === currentPage
                               ? 'bg-gradient-to-r from-blue-500 to-purple-600 border-blue-400 text-white shadow-lg'
                               : 'bg-white/20 border-white/30 text-white hover:bg-white/30'
-                          }`}
+                            }`}
                         >
                           {pageNum}
                         </button>
@@ -636,7 +654,7 @@ const JobsPage = () => {
                         </button>
                       </>
                     )}
-                  </div>
+                            </div>
 
                   {/* Next Button */}
                   <button
@@ -646,7 +664,7 @@ const JobsPage = () => {
                   >
                     Next →
                   </button>
-                </div>
+                            </div>
 
                 {/* Page Info */}
                 <div className='text-center mt-3 text-white/70 text-sm'>
@@ -655,6 +673,32 @@ const JobsPage = () => {
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Resume Builder CTA Section */}
+      <div className='relative z-10 py-16 px-6'>
+        <div className='max-w-4xl mx-auto'>
+          <div className='bg-gradient-to-r from-purple-600/20 to-blue-600/20 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl text-center'>
+            <div className='text-6xl mb-4'>📄</div>
+            <h3 className='text-3xl font-bold text-white mb-4'>Need a Professional Resume?</h3>
+            <p className='text-white/80 text-lg mb-6 max-w-2xl mx-auto'>
+              Stand out from the competition with an AI-enhanced resume. Our resume builder creates professional,
+              ATS-friendly resumes tailored to your experience and the jobs you're applying for.
+            </p>
+            <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
+              <a
+                href="/resume-builder"
+                className='bg-gradient-to-r from-purple-500 to-blue-600 text-white font-bold py-4 px-8 rounded-2xl hover:shadow-lg hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 flex items-center gap-2'
+              >
+                <span className='text-xl'>🚀</span>
+                Build My Resume
+              </a>
+              <div className='text-white/70 text-sm'>
+                ✨ AI-Enhanced • 📧 Email Delivery • 🎨 Multiple Templates
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

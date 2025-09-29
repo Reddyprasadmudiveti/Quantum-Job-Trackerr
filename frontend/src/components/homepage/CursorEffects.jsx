@@ -44,7 +44,7 @@ const CursorEffects = ({ mousePosition, isHovering, cursorRef, cursorDotRef }) =
         <div className="w-1 h-1 bg-pink-400 rounded-full animate-ping animation-delay-400 absolute top-1 left-3"></div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .animation-delay-200 {
           animation-delay: 0.2s;
         }

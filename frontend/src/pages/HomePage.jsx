@@ -176,14 +176,16 @@ const HomePage = () => {
   ]
 
   return (
-    <div className="cursor-none">
-      {/* Cursor Effects - Always visible, outside Suspense */}
-      <CursorEffects 
-        mousePosition={mousePosition} 
-        isHovering={isHovering} 
-        cursorRef={cursorRef} 
-        cursorDotRef={cursorDotRef} 
-      />
+    <div className="cursor-none overflow-x-hidden">
+      {/* Cursor Effects - Desktop only */}
+      <div className="hidden lg:block">
+        <CursorEffects 
+          mousePosition={mousePosition} 
+          isHovering={isHovering} 
+          cursorRef={cursorRef} 
+          cursorDotRef={cursorDotRef} 
+        />
+      </div>
 
       {/* Hero Section - Load immediately, outside Suspense */}
       <HeroSection 
@@ -197,22 +199,22 @@ const HomePage = () => {
       <div>
           {/* Features Section - Lazy load */}
           <Suspense fallback={
-            <div className="section-placeholder" style={{ height: '500px' }}>
-              <div className="max-w-6xl mx-auto px-6">
-                {/* Title placeholder - matches "Why Choose Dravidian University?" */}
-                <div className="skeleton-pulse h-12 w-3/4 mx-auto mb-16 rounded-lg"></div>
+            <div className="section-placeholder py-8 sm:py-12 lg:py-16">
+              <div className="responsive-container">
+                {/* Title placeholder - responsive */}
+                <div className="skeleton-pulse h-8 sm:h-10 lg:h-12 w-3/4 mx-auto mb-8 sm:mb-12 lg:mb-16 rounded-lg"></div>
                 
-                {/* Features cards placeholder - matches the 3 feature cards */}
-                <div className="grid md:grid-cols-3 gap-8">
+                {/* Features cards placeholder - responsive grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
-                      {/* Icon placeholder - matches the gradient circle with emoji */}
-                      <div className="skeleton-pulse-circle w-16 h-16 rounded-full mx-auto mb-6"></div>
-                      {/* Title placeholder - matches "Academic Excellence", etc. */}
-                      <div className="skeleton-pulse h-6 w-3/4 mx-auto mb-4 rounded-lg"></div>
-                      {/* Text placeholder - matches the description paragraph */}
-                      <div className="skeleton-pulse h-4 w-full mx-auto mb-2 rounded-lg"></div>
-                      <div className="skeleton-pulse h-4 w-5/6 mx-auto rounded-lg"></div>
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl">
+                      {/* Icon placeholder - responsive */}
+                      <div className="skeleton-pulse-circle w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full mx-auto mb-4 sm:mb-5 lg:mb-6"></div>
+                      {/* Title placeholder - responsive */}
+                      <div className="skeleton-pulse h-5 sm:h-6 w-3/4 mx-auto mb-3 sm:mb-4 rounded-lg"></div>
+                      {/* Text placeholder - responsive */}
+                      <div className="skeleton-pulse h-3 sm:h-4 w-full mx-auto mb-2 rounded-lg"></div>
+                      <div className="skeleton-pulse h-3 sm:h-4 w-5/6 mx-auto rounded-lg"></div>
                     </div>
                   ))}
                 </div>
@@ -226,23 +228,23 @@ const HomePage = () => {
 
           {/* Team Section - Lazy load */}
           <Suspense fallback={
-            <div className="section-placeholder" style={{ height: '550px' }}>
-              <div className="max-w-6xl mx-auto px-6">
-                {/* Title placeholder - matches "Meet Our Team" */}
-                <div className="skeleton-pulse h-12 w-2/4 mx-auto mb-16 rounded-lg"></div>
+            <div className="section-placeholder py-8 sm:py-12 lg:py-16">
+              <div className="responsive-container">
+                {/* Title placeholder - responsive */}
+                <div className="skeleton-pulse h-8 sm:h-10 lg:h-12 w-1/2 sm:w-2/5 mx-auto mb-8 sm:mb-12 lg:mb-16 rounded-lg"></div>
                 
-                {/* Team cards placeholder - horizontal scroll with animation */}
+                {/* Team cards placeholder - responsive layout */}
                 <div className="relative">
-                  <div className="flex gap-8" style={{ overflowX: 'hidden' }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:gap-6 xl:gap-8 gap-4 sm:gap-6 lg:overflow-x-hidden">
                     {[1, 2, 3, 4, 5, 6].map((i) => (
-                      <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-2xl min-w-[280px] text-center">
-                        {/* Avatar placeholder - matches the gradient circle with emoji */}
-                        <div className="skeleton-pulse-circle w-24 h-24 rounded mx-auto mb-4"></div>
-                        {/* Name placeholder - matches "Reddy Prasad", etc. */}
-                        <div className="skeleton-pulse h-5 w-3/4 mx-auto mb-2 rounded-lg"></div>
-                        {/* Role placeholder - matches "Developer", etc. */}
-                        <div className="skeleton-pulse h-4 w-1/2 mx-auto mb-2 rounded-lg"></div>
-                        {/* Bio placeholder - matches the description text */}
+                      <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl lg:min-w-[280px] text-center">
+                        {/* Avatar placeholder - responsive */}
+                        <div className="skeleton-pulse-circle w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded mx-auto mb-3 sm:mb-4"></div>
+                        {/* Name placeholder - responsive */}
+                        <div className="skeleton-pulse h-4 sm:h-5 w-3/4 mx-auto mb-2 rounded-lg"></div>
+                        {/* Role placeholder - responsive */}
+                        <div className="skeleton-pulse h-3 sm:h-4 w-1/2 mx-auto mb-2 rounded-lg"></div>
+                        {/* Bio placeholder - responsive */}
                         <div className="skeleton-pulse h-3 w-5/6 mx-auto rounded-lg"></div>
                       </div>
                     ))}
@@ -258,26 +260,26 @@ const HomePage = () => {
 
           {/* FAQ Section - Lazy load */}
           <Suspense fallback={
-            <div className="section-placeholder" style={{ height: '600px' }}>
-              <div className="max-w-4xl mx-auto px-6">
-                {/* Title placeholder - matches "Frequently Asked Questions" */}
-                <div className="skeleton-pulse h-8 w-4/5 mx-auto mb-16 rounded-lg"></div>
+            <div className="section-placeholder py-8 sm:py-12 lg:py-16">
+              <div className="max-w-4xl mx-auto responsive-px">
+                {/* Title placeholder - responsive */}
+                <div className="skeleton-pulse h-6 sm:h-8 w-4/5 mx-auto mb-8 sm:mb-12 lg:mb-16 rounded-lg"></div>
                 
-                {/* FAQ items placeholder - matches the expandable FAQ items */}
-                <div className="space-y-6">
+                {/* FAQ items placeholder - responsive */}
+                <div className="space-y-4 sm:space-y-6">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
-                      <div className="p-6 flex justify-between items-center">
-                        {/* Question placeholder - matches the question text */}
-                        <div className="skeleton-pulse h-6 w-4/5 rounded-lg"></div>
-                        {/* Arrow placeholder - matches the dropdown arrow */}
-                        <div className="skeleton-pulse h-6 w-6 rounded-full"></div>
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden">
+                      <div className="p-4 sm:p-6 flex justify-between items-center">
+                        {/* Question placeholder - responsive */}
+                        <div className="skeleton-pulse h-5 sm:h-6 w-4/5 rounded-lg"></div>
+                        {/* Arrow placeholder - responsive */}
+                        <div className="skeleton-pulse h-5 w-5 sm:h-6 sm:w-6 rounded-full"></div>
                       </div>
                       {/* First item shows a hint of the answer area */}
                       {i === 1 && (
-                        <div className="px-6 pb-6 opacity-30">
-                          <div className="skeleton-pulse h-4 w-full rounded-lg mb-2"></div>
-                          <div className="skeleton-pulse h-4 w-5/6 rounded-lg"></div>
+                        <div className="px-4 sm:px-6 pb-4 sm:pb-6 opacity-30">
+                          <div className="skeleton-pulse h-3 sm:h-4 w-full rounded-lg mb-2"></div>
+                          <div className="skeleton-pulse h-3 sm:h-4 w-5/6 rounded-lg"></div>
                         </div>
                       )}
                     </div>
@@ -297,15 +299,15 @@ const HomePage = () => {
 
           {/* Stats Section - Lazy load */}
           <Suspense fallback={
-            <div className="section-placeholder" style={{ height: '300px' }}>
-              <div className="max-w-6xl mx-auto px-6">
-                <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div className="section-placeholder py-8 sm:py-12 lg:py-16">
+              <div className="responsive-container">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 text-center">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 shadow-2xl">
-                      {/* Number placeholder - matches "1,000+", "200+", "95%", "28+" */}
-                      <div className="skeleton-pulse h-10 w-1/2 mx-auto mb-2 rounded-lg"></div>
-                      {/* Label placeholder - matches "Students", "Faculty Members", etc. */}
-                      <div className="skeleton-pulse h-5 w-3/4 mx-auto rounded-lg"></div>
+                    <div key={i} className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl">
+                      {/* Number placeholder - responsive */}
+                      <div className="skeleton-pulse h-6 sm:h-8 lg:h-10 w-1/2 mx-auto mb-2 rounded-lg"></div>
+                      {/* Label placeholder - responsive */}
+                      <div className="skeleton-pulse h-4 sm:h-5 w-3/4 mx-auto rounded-lg"></div>
                     </div>
                   ))}
                 </div>
@@ -317,7 +319,7 @@ const HomePage = () => {
             </LazySection>
           </Suspense>
 
-          <style jsx>{`
+          <style>{`
             @keyframes scroll {
               0% {
                 transform: translateX(0);
@@ -343,14 +345,15 @@ const HomePage = () => {
               animation-delay: 0.4s;
             }
 
-            /* Hide default cursor on the entire page */
-            * {
-              cursor: none !important;
-            }
+            /* Hide default cursor on desktop only */
+            @media (min-width: 1024px) {
+              * {
+                cursor: none !important;
+              }
 
-            /* Smooth cursor movement */
-            .cursor-none * {
-              cursor: none !important;
+              .cursor-none * {
+                cursor: none !important;
+              }
             }
 
             /* Section placeholder for lazy loading */
