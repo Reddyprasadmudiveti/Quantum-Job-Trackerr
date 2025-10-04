@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { LuLoader } from 'react-icons/lu'
 
 const EmailVerification = () => {
   const navigate = useNavigate()
@@ -49,9 +50,9 @@ const EmailVerification = () => {
       // Clear the pending verification email
       localStorage.removeItem('pendingVerificationEmail')
       
-      // Redirect to login page after 3 seconds
+      // Redirect to signup page after 3 seconds
       setTimeout(() => {
-        navigate('/signin')
+        navigate('/signup')
       }, 3000)
     } catch (error) {
       setIsLoading(false)
@@ -92,7 +93,7 @@ const EmailVerification = () => {
               </div>
               <h2 className="text-xl font-semibold text-white mb-2">Email Verified!</h2>
               <p className="text-white/80 mb-4">Your account has been successfully verified.</p>
-              <p className="text-white/60">Redirecting to login page...</p>
+              <p className="text-white/60">Redirecting to signup page...</p>
             </div>
           ) : (
             /* Verification Form */
@@ -147,13 +148,13 @@ const EmailVerification = () => {
                 </button>
               </div>
 
-              {/* Back to Login */}
+              {/* Back to Signup */}
               <div className="text-center pt-4 border-t border-white/10">
                 <Link 
-                  to="/signin" 
+                  to="/signup"
                   className="text-white/70 hover:text-white transition-colors"
                 >
-                  Back to Login
+                  Back to Signup
                 </Link>
               </div>
             </form>
