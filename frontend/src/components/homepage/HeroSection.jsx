@@ -13,67 +13,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
         </h1>
         <div className='absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl rounded-full'></div>
 
-        {/* Simple Human Eye behind header text that watches cursor - Desktop only */}
-        <div className="hidden lg:block absolute inset-0 flex items-center justify-center pointer-events-none -z-10 opacity-40">
-          <div
-            ref={dollRef}
-            className="relative transform translate-x-25 translate-y-95"
-          >
-            {/* Simple Human Eye */}
-            <div className="relative w-48 h-24 lg:w-64 lg:h-32">
-              {/* Eye Shape */}
-              <div
-                className="w-full h-full relative overflow-hidden"
-                style={{
-                  clipPath: 'ellipse(50% 100% at 50% 50%)',
-                  background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(240,240,240,0.8))'
-                }}
-              >
-                {/* Iris */}
-                <div
-                  className="absolute w-12 h-12 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-700 shadow-lg"
-                  style={{
-                    left: '50%',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)'
-                  }}
-                >
-                  {/* Pupil that follows cursor */}
-                  <div
-                    className="absolute w-4 h-4 lg:w-8 lg:h-8 bg-black rounded-full transition-all duration-300 ease-out"
-                    style={{
-                      left: `calc(50% + ${eyePosition.x * 2}px)`,
-                      top: `calc(50% + ${eyePosition.y * 2}px)`,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                  >
-                    {/* Light reflection */}
-                    <div className="absolute top-0.5 left-0.5 lg:top-1 lg:left-1 w-1.5 h-1.5 lg:w-2.5 lg:h-2.5 bg-white rounded-full opacity-90"></div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Eyelids for blinking */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-b from-orange-100 to-orange-200 transition-all duration-200 ease-out ${isBlinking ? 'opacity-100' : 'opacity-0'
-                  }`}
-                style={{
-                  clipPath: 'ellipse(50% 100% at 50% 50%)'
-                }}
-              />
-
-              {/* Simple eyebrow */}
-              <div
-                className="absolute -top-4 lg:-top-6 left-1/2 transform -translate-x-1/2 w-12 h-2 lg:w-20 lg:h-3 bg-amber-800 rounded-full opacity-60"
-              />
-            </div>
-
-            {/* Glowing effect when hovering */}
-            {isHovering && (
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-400/30 via-purple-400/30 to-blue-400/30 rounded-full animate-pulse blur-2xl scale-110"></div>
-            )}
-          </div>
-        </div>
       </div>
 
       <p className='text-sm sm:text-base lg:text-lg text-white/90 mb-8 sm:mb-12 max-w-2xl leading-relaxed drop-shadow-lg px-4 sm:px-0'>
