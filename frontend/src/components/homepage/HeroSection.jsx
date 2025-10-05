@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollRef }) => {
   return (
-    <div className='relative z-10 flex flex-col items-center justify-center min-h-[70vh] sm:min-h-[80vh] text-center responsive-px py-8 sm:py-12'>
+    <div className='relative z-10 flex flex-col items-center justify-center min-h-[60vh] sm:min-h-[70vh] text-center responsive-px py-8 sm:py-12'>
       <div className='relative'>
-        <h1 className='text-3xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 drop-shadow-2xl transform hover:scale-105 transition-transform duration-500'>
+        <h1 className='text-2xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 drop-shadow-2xl transform hover:scale-105 transition-transform duration-500'>
           <span className='block sm:inline'>Welcome to</span>
           <span className='block bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-pulse'>
             Quantum Track
@@ -20,7 +20,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
             className="relative transform translate-x-25 translate-y-95"
           >
             {/* Simple Human Eye */}
-            <div className="relative w-60 h-30 lg:w-80 lg:h-40">
+            <div className="relative w-48 h-24 lg:w-64 lg:h-32">
               {/* Eye Shape */}
               <div
                 className="w-full h-full relative overflow-hidden"
@@ -31,7 +31,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
               >
                 {/* Iris */}
                 <div
-                  className="absolute w-16 h-16 lg:w-24 lg:h-24 rounded-full bg-gradient-to-br from-blue-400 to-blue-700 shadow-lg"
+                  className="absolute w-12 h-12 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-700 shadow-lg"
                   style={{
                     left: '50%',
                     top: '50%',
@@ -40,7 +40,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
                 >
                   {/* Pupil that follows cursor */}
                   <div
-                    className="absolute w-6 h-6 lg:w-10 lg:h-10 bg-black rounded-full transition-all duration-300 ease-out"
+                    className="absolute w-4 h-4 lg:w-8 lg:h-8 bg-black rounded-full transition-all duration-300 ease-out"
                     style={{
                       left: `calc(50% + ${eyePosition.x * 2}px)`,
                       top: `calc(50% + ${eyePosition.y * 2}px)`,
@@ -64,7 +64,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
 
               {/* Simple eyebrow */}
               <div
-                className="absolute -top-4 lg:-top-6 left-1/2 transform -translate-x-1/2 w-16 h-2 lg:w-24 lg:h-3 bg-amber-800 rounded-full opacity-60"
+                className="absolute -top-4 lg:-top-6 left-1/2 transform -translate-x-1/2 w-12 h-2 lg:w-20 lg:h-3 bg-amber-800 rounded-full opacity-60"
               />
             </div>
 
@@ -76,7 +76,7 @@ const HeroSection = ({ mousePosition, isHovering, eyePosition, isBlinking, dollR
         </div>
       </div>
 
-      <p className='text-base sm:text-lg lg:text-xl text-white/90 mb-8 sm:mb-12 max-w-2xl leading-relaxed drop-shadow-lg px-4 sm:px-0'>
+      <p className='text-sm sm:text-base lg:text-lg text-white/90 mb-8 sm:mb-12 max-w-2xl leading-relaxed drop-shadow-lg px-4 sm:px-0'>
        A Quantum-Inspired Job & Career Path Tracker that Predicts, Matches, and Secures Future Work Journeys.
       </p>
 
